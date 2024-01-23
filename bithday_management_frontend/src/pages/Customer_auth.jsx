@@ -3,10 +3,13 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import confetti from "../assets/images/confetti.gif";
+import { login } from "../features/userSlice";
 function Customer_auth() {
-  const [state, setState] = useState("Login");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [state, setState] = useState("Login");
   const [customerLogin, setCustomerLogin] = useState({
     email: "",
     password: "",
@@ -21,12 +24,37 @@ function Customer_auth() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    try {
+      dispatch(
+        login({
+          email: customerLogin.email,
+          password: customerLogin.password,
+          role: "Customer",
+          loggedIn: true,
+        })
+      );
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
     console.log(customerLogin);
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log(customer);
+    try {
+      dispatch(
+        login({
+          email: customer.email,
+          password: customer.password,
+          role: "Customer",
+          loggedIn: true,
+        })
+      );
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

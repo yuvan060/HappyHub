@@ -3,10 +3,13 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../features/userSlice";
 import confetti from "../assets/images/confetti.gif";
 
 function Admin_auth() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [state, setState] = useState("Login");
   const [adminLogin, setAdminLogin] = useState({
     email: "",
@@ -22,11 +25,35 @@ function Admin_auth() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(adminLogin);
+    try {
+      dispatch(
+        login({
+          email: adminLogin.email,
+          password: adminLogin.password,
+          role: "Admin",
+          loggedIn: true,
+        })
+      );
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log(admin);
+    try {
+      dispatch(
+        login({
+          email: admin.email,
+          password: admin.password,
+          role: "Admin",
+          loggedIn: true,
+        })
+      );
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
