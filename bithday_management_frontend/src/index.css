@@ -5,3 +5,80 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif !important;
 }
+
+.bg-color {
+  background-color: #ac87c5 !important;
+}
+
+.text-color {
+  color: #ac87c5 !important;
+}
+
+.button-bg {
+  background-color: #ac87c5 !important;
+}
+.flex-center-full-hw {
+  background: url("./assets/images/bg-image.png") no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.flex-center-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 20vh;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  padding-top: 15%;
+}
+
+form {
+  padding: 20px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+    rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  border-radius: 15px;
+  min-width: 300px;
+}
+
+.field-container {
+  padding: 10px 0;
+}
+
+form h1 {
+  font-weight: normal;
+  font-size: 20px;
+  text-align: center;
+}
+
+form .button-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.about_us_banner {
+  background-image: url("./assets/images/about_us.png");
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  min-height: 70vh;
+}

@@ -4,7 +4,7 @@ function Homepage() {
   return (
     <>
       <PrimarySearchAppBar />
-      <h1>Hello U1 !!!</h1>
+      <h1>U1</h1>
     </>
   );
 }
