@@ -34,6 +34,7 @@
   justify-content: center;
   width: 100%;
   min-height: 20vh;
+  text-align: justify;
 }
 
 .flex-center {
@@ -72,7 +73,6 @@ form .button-header {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .about_us_banner {
@@ -81,4 +81,13 @@ form .button-header {
   background-position: center center;
   width: 100%;
   min-height: 70vh;
+}
+
+.content {
+  margin: 5%;
+  text-align: center;
+}
+.content-para {
+  margin: 2%;
+  text-align: justify;
 }
