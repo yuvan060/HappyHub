@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,30 +13,33 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
 
 function PrimarySearchAppBar() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ role: "Customer" });
+  const user = useSelector(selectUser);
   const contact = [
     { name: "About us", link: "/about-us" },
     { name: "Contact us", link: "/contact-us" },
   ];
   var settings = [{ name: "Login", link: "/customer-auth" }];
-  if (user) {
+  if (user !== null) {
     settings = [
-      { name: "My Account", link: "/" },
+      { name: "My Account", link: "/profile" },
       { name: "logout", link: "/logout" },
     ];
   }
   var pages = [];
   if (user?.role === "Customer") {
-    pages = [{ name: "View Scheduled Events", link: "/" }];
-  } else {
-    setUser("Admin");
     pages = [
-      { name: "Add new Events", link: "/" },
-      { name: "Edit Events", link: "/" },
-      { name: "Delete Events", link: "/" },
+      { name: "View Scheduled Events", link: "/customer/view-schedule" },
+    ];
+  } else if (user?.role === "Admin") {
+    pages = [
+      { name: "Add new Events", link: "/admin/add-event" },
+      { name: "Edit Events", link: "/admin/edit-event" },
+      { name: "Delete Events", link: "/admin/delete-event" },
     ];
   }
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -113,7 +115,12 @@ function PrimarySearchAppBar() {
               }}
             >
               {pages?.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page.name}
+                  onClick={() => {
+                    navigate(page.link);
+                  }}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -145,7 +152,9 @@ function PrimarySearchAppBar() {
             {pages.map((page) => (
               <Button
                 key={page.name}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  navigate(page.link);
+                }}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page.name}

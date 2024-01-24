@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
-import confetti from "../assets/images/confetti.gif";
+import confetti from "../assets/images/login.jpg";
 
 function Admin_auth() {
   const navigate = useNavigate();
@@ -72,7 +72,12 @@ function Admin_auth() {
           <h1>Admin</h1>
           <div className="flex-center-full">
             <div>
-              <img src={confetti} alt="gift"></img>
+              <img
+                src={confetti}
+                height={200}
+                style={{ marginTop: 15 }}
+                alt="gift"
+              ></img>
             </div>
           </div>
           <div>
