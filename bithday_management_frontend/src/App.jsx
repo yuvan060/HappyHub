@@ -13,6 +13,10 @@ import Add_events from "./pages/Add_events";
 import Edit_events from "./pages/Edit_events";
 import Delete_events from "./pages/Delete_events";
 import Profile from "./pages/Profile";
+import AccountSettings from "./components/Account_setting";
+import ChangePassword from "./components/Change_password";
+import YourOrders from "./components/Your_order";
+import UserAddress from "./components/User_Address";
 function App() {
   const user = useSelector(selectUser);
   return (
@@ -39,6 +43,13 @@ function App() {
           <Route path="/admin/edit-event" element={<Edit_events />} />
           <Route path="/admin/delete-event" element={<Delete_events />} />
           <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile/account-settings"
+            element={<AccountSettings />}
+          />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
+          <Route path="/profile/your-orders" element={<YourOrders />} />
+          <Route path="/profile/address" element={<UserAddress />} />
         </Routes>
       )}
     </Router>
