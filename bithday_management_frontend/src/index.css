@@ -44,6 +44,16 @@
   width: 60%;
   padding-top: 15%;
 }
+.flex-container-about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3%;
+}
+
+.flex-container-about-us {
+  margin: 3%;
+}
 
 form {
   padding: 20px;
@@ -88,9 +98,23 @@ form .button-header {
   display: flex;
   flex-wrap: wrap;
 }
+.contact-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  text-align: center;
+}
 
 .about_us_banner {
   background-image: url("./assets/images/about_us.png");
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  min-height: 70vh;
+}
+.contact_us_banner {
+  background-image: url("./assets/images/contact-us.png");
   background-size: cover;
   background-position: center center;
   width: 100%;
@@ -124,6 +148,49 @@ form .button-header {
   display: flex;
 }
 
+.flex-box-contact-us {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center-full-form {
+  display: flex;
+  align-items: center;
+}
+
+.fields {
+  padding: 2%;
+}
+
+.worker {
+  background: url("./assets/images/party.jpg") no-repeat;
+  /* background-size: contain; */
+
+  width: 100%;
+  min-height: 50vh;
+}
+
+.style-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.style-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  background-color: #ac87c5;
+}
+.footer-logo {
+  padding: 1%;
+}
+.banner-image {
+  margin: 6%;
+  display: flex;
+}
 .accountsettings {
   display: flex;
   flex-direction: column;
@@ -688,4 +755,9 @@ form .button-header {
     align-self: center;
     min-height: 0;
   }
+}
+
+.logo-happy {
+  height: 40px !important;
+  margin: 1.5% !important;
 }

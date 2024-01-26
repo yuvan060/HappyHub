@@ -16,6 +16,7 @@ function Slider() {
       infiniteLoop={true}
       interval={5000}
       showThumbs={false}
+      showArrows={false}
       showStatus={false}
       stopOnHover={false}
       className="hover-pointer"

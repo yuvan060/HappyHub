@@ -64,6 +64,7 @@ function PrimarySearchAppBar() {
     <AppBar position="static" className="bg-color">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <img src="/Happy-Hub.svg" className="logo-happy"></img>
           <Typography
             variant="h6"
             noWrap
