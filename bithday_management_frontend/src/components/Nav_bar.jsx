@@ -2,19 +2,23 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, Logout } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 
 function PrimarySearchAppBar() {
   const navigate = useNavigate();
@@ -23,17 +27,11 @@ function PrimarySearchAppBar() {
     { name: "About us", link: "/about-us" },
     { name: "Contact us", link: "/contact-us" },
   ];
-  var settings = [{ name: "Login", link: "/customer-auth" }];
-  if (user !== null) {
-    settings = [
-      { name: "My Account", link: "/profile" },
-      { name: "logout", link: "/logout" },
-    ];
-  }
   var pages = [];
   if (user?.role === "Customer") {
     pages = [
       { name: "View Scheduled Events", link: "/customer/view-schedule" },
+      { name: "Book Events", link: "/customer/book-schedule" },
     ];
   } else if (user?.role === "Admin") {
     pages = [
@@ -42,28 +40,97 @@ function PrimarySearchAppBar() {
       { name: "Delete Events", link: "/admin/delete-event" },
     ];
   }
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {pages.map((text, index) => (
+          <ListItem
+            key={text.name}
+            disablePadding
+            onClick={() => {
+              navigate(text.link);
+            }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {[
+          { name: "My Profile", link: "/profile" },
+          { name: "Logout", link: "/logout" },
+        ].map((text, index) => (
+          <ListItem
+            key={text.name}
+            disablePadding
+            onClick={() => {
+              navigate(text.link);
+            }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <AccountCircle /> : <Logout />}
+              </ListItemIcon>
+              <ListItemText primary={text.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
     <AppBar position="static" className="bg-color">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {user && (
+            <div>
+              {["left"].map((anchor) => (
+                <React.Fragment key={anchor}>
+                  <Button onClick={toggleDrawer(anchor, true)}>
+                    <MenuIcon style={{ color: "black" }} />
+                  </Button>
+                  <Drawer
+                    anchor={anchor}
+                    open={state[anchor]}
+                    onClose={toggleDrawer(anchor, false)}
+                  >
+                    {list(anchor)}
+                  </Drawer>
+                </React.Fragment>
+              ))}
+            </div>
+          )}
           <img src="/Happy-Hub.svg" className="logo-happy"></img>
           <Typography
             variant="h6"
@@ -87,7 +154,7 @@ function PrimarySearchAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -96,38 +163,9 @@ function PrimarySearchAppBar() {
               color="inherit"
             >
               <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages?.map((page) => (
-                <MenuItem
-                  key={page.name}
-                  onClick={() => {
-                    navigate(page.link);
-                  }}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            </IconButton> */}
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+
           <Typography
             variant="h5"
             noWrap
@@ -150,15 +188,12 @@ function PrimarySearchAppBar() {
             HappyHub
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {[""].map((page, index) => (
               <Button
-                key={page.name}
-                onClick={() => {
-                  navigate(page.link);
-                }}
+                key={index}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page.name}
+                {page}
               </Button>
             ))}
           </Box>
@@ -176,40 +211,16 @@ function PrimarySearchAppBar() {
             ))}
           </div>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircle />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+          {!user && (
+            <Button
+              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() => {
+                navigate("/customer-auth");
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.name}
-                  onClick={() => {
-                    navigate(setting.link);
-                  }}
-                >
-                  <Typography textAlign="center">{setting.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

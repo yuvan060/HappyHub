@@ -29,7 +29,7 @@ function Homepage() {
           width="80"
           color="#ac87c5"
           ariaLabel="puff-loading"
-          wrapperStyle={{ padding: "30%", backgroundColor: "black" }}
+          wrapperStyle={{ padding: "25%", backgroundColor: "black" }}
           wrapperClass="flex-center-full"
         />
       ) : (
@@ -163,6 +163,12 @@ function Homepage() {
             </div>
           </div>
           <div className="worker">
+            <center style={{ paddingTop: "2%" }}>
+              <h1>
+                {" "}
+                <span className="text-color">HappyHub</span> Team
+              </h1>
+            </center>
             <Slider_worker />
           </div>
           <Footer />

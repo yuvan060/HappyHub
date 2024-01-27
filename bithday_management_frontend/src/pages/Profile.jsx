@@ -27,7 +27,7 @@ function Profile() {
           width="80"
           color="#ac87c5"
           ariaLabel="puff-loading"
-          wrapperStyle={{ padding: "30%", backgroundColor: "black" }}
+          wrapperStyle={{ padding: "25%", backgroundColor: "black" }}
           wrapperClass="flex-center-full"
         />
       ) : (
@@ -40,7 +40,10 @@ function Profile() {
               style={{ height: "70vh", width: "100%" }}
               alt="Slider"
             />
-            <h1 className="image-panel" style={{ color: "black", left: "60%" }}>
+            <h1
+              className="image-panel"
+              style={{ color: "black", left: "60%", fontSize: "500%" }}
+            >
               My Profile
             </h1>
           </div>

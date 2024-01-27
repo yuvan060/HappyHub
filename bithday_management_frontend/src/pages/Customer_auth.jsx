@@ -74,7 +74,7 @@ function Customer_auth() {
           width="80"
           color="#ac87c5"
           ariaLabel="puff-loading"
-          wrapperStyle={{ padding: "30%", backgroundColor: "black" }}
+          wrapperStyle={{ padding: "25%", backgroundColor: "black" }}
           wrapperClass="flex-center-full"
         />
       ) : (

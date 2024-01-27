@@ -46,12 +46,12 @@ function Slider_worker() {
       {images.map((image, i) => (
         <div key={i} className="style-banner">
           <div className="banner-image">
-            <div>
+            <div className="border">
               <img
                 src={images[i]}
                 className="image-slider"
                 alt="Slider"
-                style={{ height: "40vh", width: "40vh" }}
+                style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
               />
             </div>
             <div
@@ -71,12 +71,12 @@ function Slider_worker() {
             </div>
           </div>
           <div className="banner-image">
-            <div>
+            <div className="border">
               <img
                 src={images1[i]}
                 className="image-slider"
                 alt="Slider"
-                style={{ height: "40vh", width: "40vh" }}
+                style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
               />
             </div>
             <div

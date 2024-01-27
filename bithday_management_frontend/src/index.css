@@ -163,9 +163,7 @@ form .button-header {
 }
 
 .worker {
-  background: url("./assets/images/party.jpg") no-repeat;
-  /* background-size: contain; */
-
+  background-color: rgb(87, 84, 84);
   width: 100%;
   min-height: 50vh;
 }
