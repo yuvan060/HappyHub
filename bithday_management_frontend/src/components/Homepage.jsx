@@ -36,7 +36,7 @@ function Homepage() {
         <>
           <PrimarySearchAppBar />
           <Slider />
-          <div className="flex-center-full">
+          <div className="flex-center-full ">
             <div className="flex-container">
               <h1>
                 Welcome to <span className="text-color">HappyHub</span>
@@ -89,7 +89,7 @@ function Homepage() {
             </div>
           </div>
           <div
-            className="flex-center-full"
+            className="flex-center-full wrap"
             style={{
               backgroundColor: "#e6e6e6",
               paddingTop: 50,

@@ -30,11 +30,16 @@
 
 .flex-center-full {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 20vh;
   text-align: justify;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
 
 .flex-center {
@@ -73,14 +78,15 @@ form {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 40%;
-  margin-top: 7%;
+  /* width: 40%;
+  margin-top: 7%; */
 }
 
 .flex-container-para {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 form h1 {
   font-weight: normal;
@@ -96,7 +102,6 @@ form .button-header {
 
 .flex-box {
   display: flex;
-  flex-wrap: wrap;
 }
 .contact-content {
   display: flex;
@@ -123,6 +128,7 @@ form .button-header {
 
 .content {
   margin: 3%;
+  width: 25%;
   text-align: center;
   transition: 0.3s;
 }
@@ -170,6 +176,7 @@ form .button-header {
 
 .style-banner {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -186,8 +193,10 @@ form .button-header {
   padding: 1%;
 }
 .banner-image {
-  margin: 6%;
+  flex-wrap: wrap;
+  margin: 5%;
   display: flex;
+  /* width: 20%; */
 }
 .accountsettings {
   display: flex;
@@ -487,6 +496,26 @@ form .button-header {
   }
 }
 @media (max-width: 500px) {
+  .display-header {
+    display: none !important;
+  }
+  h1 {
+    font-size: larger;
+  }
+  p {
+    font-size: small;
+  }
+  .image-panel {
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    color: white;
+    font-size: large;
+  }
+  .content {
+    width: 100%;
+  }
   .usersidebar {
     display: flex;
     flex-direction: row;

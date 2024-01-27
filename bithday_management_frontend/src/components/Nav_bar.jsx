@@ -24,8 +24,8 @@ function PrimarySearchAppBar() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const contact = [
-    { name: "About us", link: "/about-us" },
-    { name: "Contact us", link: "/contact-us" },
+    { name: "About", link: "/about-us" },
+    { name: "Contact", link: "/contact-us" },
   ];
   var pages = [];
   if (user?.role === "Customer") {
@@ -133,6 +133,7 @@ function PrimarySearchAppBar() {
           )}
           <img src="/Happy-Hub.svg" className="logo-happy"></img>
           <Typography
+            className="display-header"
             variant="h6"
             noWrap
             component="a"
@@ -167,6 +168,7 @@ function PrimarySearchAppBar() {
           </Box>
 
           <Typography
+            className="display-header"
             variant="h5"
             noWrap
             component="a"

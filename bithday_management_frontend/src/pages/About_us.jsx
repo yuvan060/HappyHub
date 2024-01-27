@@ -39,7 +39,7 @@ function About_us() {
           </div>
           <div className="flex-center-full">
             <div className="flex-container">
-              <h1>
+              <h1 style={{ margin: "3%" }}>
                 We <span className="text-color">Create Events </span> that Lasts
               </h1>
               <p style={{ padding: 10, textAlign: "center" }}>

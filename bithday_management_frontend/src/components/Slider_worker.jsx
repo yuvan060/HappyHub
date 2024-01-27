@@ -31,7 +31,15 @@ const content1 = [
     para: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae quaerat quibusdam ",
   },
 ];
+
 function Slider_worker() {
+  const combinedSlides = images.map((img, i) => ({
+    image1: img,
+    image2: images1[i],
+    content1: content[i],
+    content2: content1[i],
+  }));
+
   return (
     <Carousel
       autoPlay={true}
@@ -41,14 +49,16 @@ function Slider_worker() {
       showArrows={false}
       showStatus={false}
       stopOnHover={false}
+      verticalSwipe="standard"
+      axis="vertical" // Set the axis to vertical
       className="hover-pointer"
     >
-      {images.map((image, i) => (
+      {combinedSlides.map((slide, i) => (
         <div key={i} className="style-banner">
           <div className="banner-image">
             <div className="border">
               <img
-                src={images[i]}
+                src={slide.image1}
                 className="image-slider"
                 alt="Slider"
                 style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
@@ -62,18 +72,19 @@ function Slider_worker() {
                 width: "40%",
               }}
             >
-              <h2>{content[i].name}</h2>
+              <h2>{slide.content1.name}</h2>
               <hr />
               <p style={{ fontSize: "small", fontWeight: "lighter" }}>
-                {content[i].role}
+                {slide.content1.role}
               </p>
-              <p style={{ paddingTop: "4%" }}>{content[i].para}</p>
+              <p style={{ paddingTop: "4%" }}>{slide.content1.para}</p>
             </div>
           </div>
+
           <div className="banner-image">
             <div className="border">
               <img
-                src={images1[i]}
+                src={slide.image2}
                 className="image-slider"
                 alt="Slider"
                 style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
@@ -87,12 +98,12 @@ function Slider_worker() {
                 width: "40%",
               }}
             >
-              <h2>{content1[i].name}</h2>
+              <h2>{slide.content2.name}</h2>
               <hr />
               <p style={{ fontSize: "small", fontWeight: "lighter" }}>
-                {content1[i].role}
+                {slide.content2.role}
               </p>
-              <p style={{ paddingTop: "4%" }}>{content1[i].para}</p>
+              <p style={{ paddingTop: "4%" }}>{slide.content2.para}</p>
             </div>
           </div>
         </div>
