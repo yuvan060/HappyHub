@@ -18,8 +18,7 @@ function Error() {
           width="80"
           color="#ac87c5"
           ariaLabel="puff-loading"
-          wrapperStyle={{ padding: "25%", backgroundColor: "black" }}
-          wrapperClass="flex-center-full"
+          wrapperClass="flex-center-full loader"
         />
       ) : (
         <>

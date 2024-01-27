@@ -110,7 +110,10 @@ form .button-header {
   width: 70%;
   text-align: center;
 }
-
+.loader {
+  background-color: black;
+  padding: 25%;
+}
 .about_us_banner {
   background-image: url("./assets/images/about_us.png");
   background-size: cover;
@@ -397,6 +400,10 @@ form .button-header {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.172);
     padding: 5px;
   }
+  .loader {
+    background-color: black;
+    padding: 38%;
+  }
   .addressin {
     width: 100%;
     display: flex;
@@ -498,6 +505,11 @@ form .button-header {
 @media (max-width: 500px) {
   .display-header {
     display: none !important;
+  }
+  .loader {
+    background-color: black;
+    padding-top: 90%;
+    padding-bottom: 90%;
   }
   h1 {
     font-size: larger;

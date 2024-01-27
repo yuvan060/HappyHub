@@ -131,7 +131,13 @@ function PrimarySearchAppBar() {
               ))}
             </div>
           )}
-          <img src="/Happy-Hub.svg" className="logo-happy"></img>
+          <img
+            src="/Happy-Hub.svg"
+            onClick={() => {
+              navigate("/");
+            }}
+            className="logo-happy"
+          ></img>
           <Typography
             className="display-header"
             variant="h6"

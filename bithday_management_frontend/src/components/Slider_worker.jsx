@@ -33,82 +33,95 @@ const content1 = [
 ];
 
 function Slider_worker() {
-  const combinedSlides = images.map((img, i) => ({
-    image1: img,
-    image2: images1[i],
-    content1: content[i],
-    content2: content1[i],
-  }));
-
   return (
-    <Carousel
-      autoPlay={true}
-      infiniteLoop={true}
-      interval={5000}
-      showThumbs={false}
-      showArrows={false}
-      showStatus={false}
-      stopOnHover={false}
-      verticalSwipe="standard"
-      axis="vertical" // Set the axis to vertical
-      className="hover-pointer"
-    >
-      {combinedSlides.map((slide, i) => (
-        <div key={i} className="style-banner">
-          <div className="banner-image">
-            <div className="border">
-              <img
-                src={slide.image1}
-                className="image-slider"
-                alt="Slider"
-                style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
-              />
-            </div>
-            <div
-              style={{
-                color: "white",
-                margin: "5%",
-                textAlign: "justify",
-                width: "40%",
-              }}
-            >
-              <h2>{slide.content1.name}</h2>
-              <hr />
-              <p style={{ fontSize: "small", fontWeight: "lighter" }}>
-                {slide.content1.role}
-              </p>
-              <p style={{ paddingTop: "4%" }}>{slide.content1.para}</p>
-            </div>
-          </div>
-
-          <div className="banner-image">
-            <div className="border">
-              <img
-                src={slide.image2}
-                className="image-slider"
-                alt="Slider"
-                style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
-              />
-            </div>
-            <div
-              style={{
-                color: "white",
-                margin: "5%",
-                textAlign: "justify",
-                width: "40%",
-              }}
-            >
-              <h2>{slide.content2.name}</h2>
-              <hr />
-              <p style={{ fontSize: "small", fontWeight: "lighter" }}>
-                {slide.content2.role}
-              </p>
-              <p style={{ paddingTop: "4%" }}>{slide.content2.para}</p>
+    <div>
+      {images.map((image, i) => (
+        <Carousel
+          key={i}
+          autoPlay={true}
+          infiniteLoop={true}
+          interval={5000}
+          showThumbs={false}
+          showArrows={false}
+          showStatus={false}
+          stopOnHover={false}
+          verticalSwipe="standard"
+          axis="vertical" // Set the axis to vertical
+          className="hover-pointer"
+        >
+          <div className="style-banner">
+            <div className="banner-image">
+              <div className="border">
+                <img
+                  src={images[i]}
+                  className="image-slider"
+                  alt="Slider"
+                  style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
+                />
+              </div>
+              <div
+                style={{
+                  color: "white",
+                  margin: "5%",
+                  textAlign: "justify",
+                  width: "40%",
+                }}
+              >
+                <h2>{content[i].name}</h2>
+                <hr />
+                <p style={{ fontSize: "small", fontWeight: "lighter" }}>
+                  {content[i].role}
+                </p>
+                <p style={{ paddingTop: "4%" }}>{content[i].para}</p>
+              </div>
             </div>
           </div>
-        </div>
+        </Carousel>
       ))}
-    </Carousel>
+      {images1.map((image, i) => (
+        <Carousel
+          key={i}
+          autoPlay={true}
+          infiniteLoop={true}
+          interval={5000}
+          showThumbs={false}
+          showArrows={false}
+          showStatus={false}
+          stopOnHover={false}
+          verticalSwipe="standard"
+          axis="vertical" // Set the axis to vertical
+          className="hover-pointer"
+        >
+          <div className="style-banner">
+            <div className="banner-image">
+              <div className="border">
+                <img
+                  src={images1[i]}
+                  className="image-slider"
+                  alt="Slider"
+                  style={{ height: "40vh", width: "40vh", borderRadius: "90%" }}
+                />
+              </div>
+              <div
+                style={{
+                  color: "white",
+                  margin: "5%",
+                  textAlign: "justify",
+                  width: "40%",
+                }}
+              >
+                <h2>{content1[i].name}</h2>
+                <hr />
+                <p style={{ fontSize: "small", fontWeight: "lighter" }}>
+                  {content1[i].role}
+                </p>
+                <p style={{ paddingTop: "4%" }}>{content1[i].para}</p>
+              </div>
+            </div>
+          </div>
+        </Carousel>
+      ))}
+    </div>
   );
 }
 
