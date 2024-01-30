@@ -1,58 +1,166 @@
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
+import { Edit } from "@mui/icons-material";
+import { useState } from "react";
+import { TextField } from "@mui/material";
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
 
-export default function MediaControlCard() {
-  const theme = useTheme();
-
+export default function MediaControlCard(cardContent) {
+  const [isEditable, setIsEditable] = useState(false);
+  const user = useSelector(selectUser);
+  const [cardContents, setCardContents] = useState(cardContent.cardContent);
+  console.log(cardContents);
   return (
-    <Card sx={{ display: "flex" }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 500 }}
-        image="/static/images/cards/live-from-space.jpg"
-        alt="Live from space album cover"
-      />
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
-            Live From Space
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            component="div"
-          >
-            Mac Miller
-          </Typography>
-        </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton aria-label="previous">
-            {theme.direction === "rtl" ? (
-              <SkipNextIcon />
-            ) : (
-              <SkipPreviousIcon />
-            )}
-          </IconButton>
-          <IconButton aria-label="play/pause">
-            <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-          </IconButton>
-          <IconButton aria-label="next">
-            {theme.direction === "rtl" ? (
-              <SkipPreviousIcon />
-            ) : (
-              <SkipNextIcon />
-            )}
-          </IconButton>
-        </Box>
-      </Box>
-    </Card>
+    <>
+      {!isEditable ? (
+        <Card sx={{ maxWidth: 345, margin: 5 }}>
+          <CardMedia
+            component="img"
+            alt="green iguana"
+            height="140"
+            image={cardContents.imageSrc}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {cardContents.eventName}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {cardContents.description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {cardContents.cost}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">View</Button>
+            <Button
+              onClick={() => {
+                setIsEditable(true);
+              }}
+              size="small"
+            >
+              <Edit style={{ color: "#349eeb" }} />
+            </Button>
+          </CardActions>
+        </Card>
+      ) : user.role === "Customer" ? (
+        <>
+          <Card sx={{ maxWidth: 345, margin: 5 }}>
+            <CardMedia
+              component="img"
+              alt="green iguana"
+              height="140"
+              image={cardContents.imageSrc}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {cardContents.eventName}
+              </Typography>
+              <TextField
+                style={{ margin: "1%" }}
+                value={cardContents.description}
+                onChange={(e) => {
+                  setCardContents({
+                    ...cardContents,
+                    description: e.target.value,
+                  });
+                }}
+                type="text"
+                id="description"
+                variant="outlined"
+                fullWidth
+              ></TextField>
+              <Typography variant="body2" color="text.secondary">
+                {cardContents.cost}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">View</Button>
+              <Button
+                onClick={() => {
+                  setIsEditable(false);
+                }}
+                size="small"
+              >
+                Confirm
+              </Button>
+            </CardActions>
+          </Card>
+        </>
+      ) : (
+        <>
+          <>
+            <Card sx={{ maxWidth: 345, margin: 5 }}>
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                height="140"
+                image={cardContents.imageSrc}
+              />
+              <CardContent>
+                <TextField
+                  style={{ margin: "1%" }}
+                  value={cardContents.eventName}
+                  onChange={(e) => {
+                    setCardContents({
+                      ...cardContents,
+                      eventName: e.target.value,
+                    });
+                  }}
+                  type="text"
+                  id="name"
+                  variant="outlined"
+                  fullWidth
+                ></TextField>
+                <TextField
+                  style={{ margin: "1%" }}
+                  value={cardContents.description}
+                  onChange={(e) => {
+                    setCardContents({
+                      ...cardContents,
+                      description: e.target.value,
+                    });
+                  }}
+                  type="text"
+                  id="description"
+                  variant="outlined"
+                  fullWidth
+                ></TextField>
+                <TextField
+                  style={{ margin: "1%" }}
+                  value={cardContents.cost}
+                  onChange={(e) => {
+                    setCardContents({
+                      ...cardContents,
+                      cost: e.target.value,
+                    });
+                  }}
+                  type="text"
+                  id="cost"
+                  variant="outlined"
+                  fullWidth
+                ></TextField>
+              </CardContent>
+              <CardActions>
+                <Button size="small">View</Button>
+                <Button
+                  onClick={() => {
+                    setIsEditable(false);
+                  }}
+                  size="small"
+                >
+                  Confirm
+                </Button>
+              </CardActions>
+            </Card>
+          </>
+        </>
+      )}
+    </>
   );
 }

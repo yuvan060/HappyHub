@@ -35,9 +35,8 @@ function PrimarySearchAppBar() {
     ];
   } else if (user?.role === "Admin") {
     pages = [
-      { name: "Add new Events", link: "/admin/add-event" },
-      { name: "Edit Events", link: "/admin/edit-event" },
-      { name: "Delete Events", link: "/admin/delete-event" },
+      { name: "Themes", link: "/admin/themes" },
+      { name: "Add ons", link: "/admin/addons" },
     ];
   }
 
@@ -87,6 +86,7 @@ function PrimarySearchAppBar() {
       <Divider />
       <List>
         {[
+          { name: "My DashBoard", link: "/profile/dashboard" },
           { name: "My Profile", link: "/profile" },
           { name: "Logout", link: "/logout" },
         ].map((text, index) => (

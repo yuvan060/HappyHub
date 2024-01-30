@@ -9,15 +9,14 @@ import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
 import Error from "./pages/Error";
 import View_schedule from "./pages/View_schedule";
-import Add_events from "./pages/Add_events";
-import Edit_events from "./pages/Edit_events";
-import Delete_events from "./pages/Delete_events";
+import Add_themes from "./pages/Add_themes";
 import Profile from "./pages/Profile";
 import AccountSettings from "./components/Account_setting";
 import ChangePassword from "./components/Change_password";
-import YourOrders from "./components/Your_order";
-import UserAddress from "./components/User_Address";
-
+import Dashboard from "./pages/Dashboard";
+import Book_events from "./pages/Book_events";
+import Book_events_2 from "./pages/Books_events_2";
+import Addons from "./pages/Addons";
 function App() {
   const user = useSelector(selectUser);
   return (
@@ -40,17 +39,20 @@ function App() {
           <Route path="/contact-us" element={<Contact_us />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="/customer/view-schedule" element={<View_schedule />} />
-          <Route path="/admin/add-event" element={<Add_events />} />
-          <Route path="/admin/edit-event" element={<Edit_events />} />
-          <Route path="/admin/delete-event" element={<Delete_events />} />
+          <Route path="/admin/themes" element={<Add_themes />} />
+          <Route path="/admin/addons" element={<Addons />} />
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/profile/account-settings"
             element={<AccountSettings />}
           />
           <Route path="/profile/change-password" element={<ChangePassword />} />
-          <Route path="/profile/your-orders" element={<YourOrders />} />
-          <Route path="/profile/address" element={<UserAddress />} />
+          <Route path="/profile/dashboard" element={<Dashboard />} />
+          <Route path="/customer/book-schedule" element={<Book_events />} />
+          <Route
+            path="/customer/booking-detail-confirm"
+            element={<Book_events_2 />}
+          />
         </Routes>
       )}
     </Router>

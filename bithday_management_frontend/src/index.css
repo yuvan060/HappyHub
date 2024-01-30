@@ -100,8 +100,11 @@ form .button-header {
   justify-content: space-around;
 }
 
-.flex-box {
-  display: flex;
+.flex-box-card {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 .contact-content {
   display: flex;
@@ -128,7 +131,19 @@ form .button-header {
   width: 100%;
   min-height: 70vh;
 }
+.flex-themes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
+.button-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3%;
+}
 .content {
   margin: 3%;
   width: 25%;
@@ -201,6 +216,18 @@ form .button-header {
   display: flex;
   /* width: 20%; */
 }
+
+.card-events {
+  padding: 5% !important;
+  background-color: rgb(207, 207, 207) !important;
+}
+.card {
+  padding: 4%;
+}
+.flex-box {
+  display: flex;
+}
+
 .accountsettings {
   display: flex;
   flex-direction: column;
@@ -246,6 +273,10 @@ form .button-header {
 }
 
 @media (max-width: 800px) {
+  .flex-box-card {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
   .accountsettings .form {
     display: flex;
     flex-direction: column;
@@ -442,6 +473,28 @@ form .button-header {
   }
 }
 @media (max-width: 900px) {
+  .loader {
+    background-color: black;
+    padding-top: 90%;
+    padding-bottom: 90%;
+  }
+  h1 {
+    font-size: x-large;
+  }
+  p {
+    font-size: small;
+  }
+  .image-panel {
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    color: white;
+    font-size: large;
+  }
+  .content {
+    width: 100%;
+  }
   .useraddress .form {
     display: flex;
     flex-direction: column;
@@ -799,4 +852,36 @@ form .button-header {
 .logo-happy {
   height: 40px !important;
   margin: 1.5% !important;
+}
+
+.card-container {
+  position: relative;
+  margin: 2% !important;
+}
+
+.zoom-image:hover {
+  transform: scale(1.1);
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: white;
+  pointer-events: none; /* Allow clicks to pass through the overlay */
+}
+
+.card-container:hover .overlay {
+  opacity: 1;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
 }
