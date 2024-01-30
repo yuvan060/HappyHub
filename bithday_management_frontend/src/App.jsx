@@ -17,6 +17,7 @@ import Dashboard from "./pages/Dashboard";
 import Book_events from "./pages/Book_events";
 import Book_events_2 from "./pages/Books_events_2";
 import Addons from "./pages/Addons";
+import Foods from "./pages/Food";
 function App() {
   const user = useSelector(selectUser);
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/customer/view-schedule" element={<View_schedule />} />
           <Route path="/admin/themes" element={<Add_themes />} />
           <Route path="/admin/addons" element={<Addons />} />
+          <Route path="/admin/add-foods" element={<Foods />} />
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/profile/account-settings"

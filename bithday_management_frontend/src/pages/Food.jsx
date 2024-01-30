@@ -5,40 +5,40 @@ import MediaControlCard from "../components/Card";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
 
-function Addons() {
-  const [addOn, setAddOn] = useState(false);
-  const [addOns, setAddOns] = useState({});
+function Foods() {
+  const [addFood, setAddFood] = useState(false);
+  const [foods, setFoods] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCardContent((prevCardContent) => [...prevCardContent, addOns]);
+    setCardContent((prevCardContent) => [...prevCardContent, foods]);
     console.log(cardContent);
   };
   const [cardContent, setCardContent] = useState([
     {
-      eventName: "Dj Party",
-      description: "lorem ipsum dolor sit amet, consectetur ",
+      eventName: "Cilantro Grilled Veg",
       imageSrc:
-        "https://img.freepik.com/free-photo/man-being-dj-party-medium-shot_23-2149646087.jpg?w=1060&t=st=1706631694~exp=1706632294~hmac=2f16a251e4a0971dd8265c77e01d7763577da1a0e8bb2079b12dc8264cd17765",
+        "https://img.freepik.com/free-photo/grilled-violet-asparagus-wrapped-with-bacon_2829-11299.jpg?w=1060&t=st=1706636354~exp=1706636954~hmac=ae30d4bf629fa8115d80cfae7b00edcc7475f9a913ebb004a977c51b5574d4e1",
+      description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$100",
     },
     {
-      eventName: "Magic Show",
+      eventName: "Hot BBQ Wings",
       imageSrc:
-        "https://img.freepik.com/free-photo/front-view-woman-holding-tombola-tickets_23-2149704899.jpg?w=1060&t=st=1706631008~exp=1706631608~hmac=db20ba210b044e539659a3562f3e79a43ea429dda0c44f239e1bceb9a431423f",
+        "https://img.freepik.com/free-photo/grilled-chicken-meat-appetizer-spicy-with-honey-generative-ai_188544-12164.jpg?t=st=1706636419~exp=1706637019~hmac=1dbf2dd8a36fb6d4820676cf279aafb73bc8749f5e0f64970a5b72d9ff5a1091",
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$200",
     },
     {
-      eventName: "Music Show",
+      eventName: "Mutton Masala Seekh",
       imageSrc:
-        "https://img.freepik.com/free-photo/glowing-stage-light-illuminates-cheering-rock-fans-generated-by-ai_188544-37983.jpg?w=1380&t=st=1706631740~exp=1706632340~hmac=4e8b5d5353b1cb64e5df5ef351d4154095b2f5b627edb740494051c171aaca82",
+        "https://img.freepik.com/free-photo/hearty-beef-okra-stew-casserole-wooden-table-top-view-traditional-african-food_123827-27545.jpg?w=1060&t=st=1706636576~exp=1706637176~hmac=6dc0f07da9ddad0d6a1cc9acae1d799956f2d2a044f1f1f198a8ad99bdf4d8ba",
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$300",
     },
     {
-      eventName: "Game Show",
+      eventName: "Mutton Rogan",
       imageSrc:
-        "https://img.freepik.com/free-photo/young-adults-playing-beer-pong_23-2149402815.jpg?w=1060&t=st=1706631386~exp=1706631986~hmac=833deaeece646a8b4904c2b22ab1a165458c354e415f69a98945ad9e1cf0df6a",
+        "https://img.freepik.com/free-photo/delicious-goulash-ready-dinner_23-2149370903.jpg?w=740&t=st=1706636656~exp=1706637256~hmac=6e635be8aa128141a0ff0c18b45487a813f02bc7ef88bcaf5782a038e2c008f7",
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$500",
     },
@@ -79,47 +79,47 @@ function Addons() {
           <div className="button-center">
             <Button
               onClick={() => {
-                setAddOn(!addOn);
+                setAddFood(!addFood);
               }}
               className="button-bg"
               style={{ color: "white" }}
             >
               {" "}
-              + Add-ons
+              + Add Foods
             </Button>
           </div>
-          {addOn && (
+          {addFood && (
             <>
               <form
                 onSubmit={(e) => {
                   handleSubmit(e);
                 }}
               >
-                <h1>Addons</h1>
+                <h1>Add Theme</h1>
 
                 <div className="flex-themes">
                   <div className="fields">
                     <TextField
-                      value={addOns.eventName}
+                      value={foods.eventName}
                       onChange={(e) => {
-                        setAddOns({
-                          ...addOns,
+                        setFoods({
+                          ...foods,
                           eventName: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="themeName"
-                      label="Theme Name"
+                      id="eventName"
+                      label="Food Name"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.imageSrc}
+                      value={foods.imageSrc}
                       onChange={(e) => {
-                        setAddOns({
-                          ...addOns,
+                        setFoods({
+                          ...foods,
                           imageSrc: e.target.value,
                         });
                       }}
@@ -132,10 +132,10 @@ function Addons() {
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.description}
+                      value={foods.description}
                       onChange={(e) => {
-                        setAddOns({
-                          ...addOns,
+                        setFoods({
+                          ...foods,
                           description: e.target.value,
                         });
                       }}
@@ -143,24 +143,24 @@ function Addons() {
                       multiline
                       maxRows={4}
                       id="description"
-                      label="Theme description"
+                      label="Food description"
                       variant="outlined"
                       //   fullWidth
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.cost}
+                      value={foods.cost}
                       onChange={(e) => {
-                        addOns({
-                          ...addOns,
+                        setFoods({
+                          ...foods,
                           cost: e.target.value,
                         });
                       }}
                       required
                       type="text"
                       id="description"
-                      label="Theme Cost"
+                      label="Food Cost"
                       variant="outlined"
                       //   fullWidth
                     ></TextField>
@@ -172,7 +172,7 @@ function Addons() {
                         style={{ color: "white" }}
                         type="submit"
                       >
-                        + New Addons
+                        Add Food
                       </Button>
                     </center>
                   </div>
@@ -187,4 +187,4 @@ function Addons() {
   );
 }
 
-export default Addons;
+export default Foods;

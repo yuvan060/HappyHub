@@ -3,8 +3,10 @@ import "../assets/css/DashBoard.css";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Dashboard = () => {
+  const [isCardVisible, setCardVisibility] = useState(false);
   const user = useSelector(selectUser);
   return (
     <>
@@ -71,7 +73,13 @@ const Dashboard = () => {
                       <span className="status completed">Completed</span>
                     </td>
                     <td>
-                      <Button className="button-bg" style={{ color: "white" }}>
+                      <Button
+                        className="button-bg"
+                        onClick={() => {
+                          setCardVisibility(true);
+                        }}
+                        style={{ color: "white" }}
+                      >
                         View{" "}
                       </Button>
                     </td>
@@ -86,7 +94,13 @@ const Dashboard = () => {
                       <span className="status pending">Pending</span>
                     </td>
                     <td>
-                      <Button className="button-bg" style={{ color: "white" }}>
+                      <Button
+                        className="button-bg"
+                        onClick={() => {
+                          setCardVisibility(true);
+                        }}
+                        style={{ color: "white" }}
+                      >
                         View{" "}
                       </Button>
                     </td>
@@ -101,7 +115,13 @@ const Dashboard = () => {
                       <span className="status process">Process</span>
                     </td>
                     <td>
-                      <Button className="button-bg" style={{ color: "white" }}>
+                      <Button
+                        className="button-bg"
+                        onClick={() => {
+                          setCardVisibility(true);
+                        }}
+                        style={{ color: "white" }}
+                      >
                         View{" "}
                       </Button>
                     </td>
@@ -116,7 +136,13 @@ const Dashboard = () => {
                       <span className="status pending">Pending</span>
                     </td>
                     <td>
-                      <Button className="button-bg" style={{ color: "white" }}>
+                      <Button
+                        className="button-bg"
+                        onClick={() => {
+                          setCardVisibility(true);
+                        }}
+                        style={{ color: "white" }}
+                      >
                         View{" "}
                       </Button>
                     </td>
@@ -131,7 +157,13 @@ const Dashboard = () => {
                       <span className="status completed">Completed</span>
                     </td>
                     <td>
-                      <Button className="button-bg" style={{ color: "white" }}>
+                      <Button
+                        className="button-bg"
+                        onClick={() => {
+                          setCardVisibility(true);
+                        }}
+                        style={{ color: "white" }}
+                      >
                         View{" "}
                       </Button>
                     </td>
@@ -146,9 +178,7 @@ const Dashboard = () => {
             </div>
           </div>
         </main>
-        {/* MAIN */}
       </div>
-      {/* CONTENT */}
     </>
   );
 };
