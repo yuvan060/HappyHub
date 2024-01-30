@@ -1,13 +1,50 @@
-import { Button } from "@mui/material";
+import { Button, Card, CardContent } from "@mui/material";
 import "../assets/css/DashBoard.css";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { Close } from "@mui/icons-material";
+// eslint-disable-next-line no-unused-vars
+import Chart from "chart.js/auto";
+import { Line } from "react-chartjs-2";
 
 const Dashboard = () => {
   const [isCardVisible, setCardVisibility] = useState(false);
   const user = useSelector(selectUser);
+
+  const chartData = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    datasets: [
+      {
+        label: "AmountUsed",
+        data: [20, 38, 38, 72, 55, 63, 43, 76, 85, 80, 40],
+        borderColor: "#d0cdef",
+        borderWidth: 2,
+        borderDash: [5, 5],
+      },
+      {
+        label: "TotalBudget",
+        data: [85, 65, 75, 38, 85, 35, 62, 40, 40, 64, 50, 89],
+
+        borderColor: "#6259ca",
+        borderWidth: 2,
+      },
+    ],
+  };
   return (
     <>
       <PrimarySearchAppBar />
@@ -89,7 +126,7 @@ const Dashboard = () => {
                       {/* <img src="img/people.png"/> */}
                       <p>John Doe</p>
                     </td>
-                    <td>01-10-2021</td>
+                    <td>01-10-2024</td>
                     <td>
                       <span className="status pending">Pending</span>
                     </td>
@@ -175,10 +212,27 @@ const Dashboard = () => {
               <div className="head">
                 <h3>Your Activities </h3>
               </div>
+              <Line data={chartData} />
             </div>
           </div>
         </main>
       </div>
+      {isCardVisible && (
+        <Card>
+          <CardContent>
+            <Close
+              style={{
+                position: "absolute",
+                top: "5px",
+                right: "5px",
+                cursor: "pointer",
+              }}
+              onClick={() => setCardVisibility(false)}
+            />
+            <p>This is your card content.</p>
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };
