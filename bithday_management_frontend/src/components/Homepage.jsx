@@ -12,6 +12,7 @@ import birthday5 from "../assets/images/birthday-gallery-5.jpg";
 import { Puff } from "react-loader-spinner";
 import Slider_worker from "./Slider_worker";
 import Footer from "./Footer";
+import Packages from "./Packages";
 function Homepage() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -160,6 +161,9 @@ function Homepage() {
                 </p>
               </div>
             </div>
+          </div>
+          <div>
+            <Packages />
           </div>
           <div className="worker">
             <center style={{ paddingTop: "2%" }}>
