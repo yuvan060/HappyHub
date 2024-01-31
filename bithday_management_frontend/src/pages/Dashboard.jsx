@@ -1,13 +1,29 @@
-import { Button, Card, CardContent } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import "../assets/css/DashBoard.css";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Close } from "@mui/icons-material";
 // eslint-disable-next-line no-unused-vars
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+
+const cardContent = [
+  {
+    eventName: "Birthday Party",
+    imageSrc:
+      "https://img.freepik.com/free-photo/children-celebrating-birthday_23-2148155321.jpg?t=st=1706633707~exp=1706634307~hmac=d9a09433c1f8fb80b769be5dd9cc2cd94c2688ed4c907eb991a5de7fbd06ac8b",
+    description: "lorem ipsum dolor sit amet, consectetur ",
+    cost: "$100",
+  },
+];
 
 const Dashboard = () => {
   const [isCardVisible, setCardVisibility] = useState(false);
@@ -198,6 +214,7 @@ const Dashboard = () => {
                         className="button-bg"
                         onClick={() => {
                           setCardVisibility(true);
+                          console.log("Heyy");
                         }}
                         style={{ color: "white" }}
                       >
@@ -218,20 +235,37 @@ const Dashboard = () => {
         </main>
       </div>
       {isCardVisible && (
-        <Card>
-          <CardContent>
-            <Close
-              style={{
-                position: "absolute",
-                top: "5px",
-                right: "5px",
-                cursor: "pointer",
-              }}
-              onClick={() => setCardVisibility(false)}
+        <div className="overlay">
+          <Card>
+            <CardMedia
+              component="img"
+              alt="green iguana"
+              height="140"
+              image={cardContent[0].imageSrc}
             />
-            <p>This is your card content.</p>
-          </CardContent>
-        </Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {cardContent[0].eventName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {cardContent[0].description}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {cardContent[0].cost}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                onClick={() => {
+                  setCardVisibility(false);
+                  console.log(cardContent);
+                }}
+              >
+                Close
+              </Button>
+            </CardActions>
+          </Card>
+        </div>
       )}
     </>
   );

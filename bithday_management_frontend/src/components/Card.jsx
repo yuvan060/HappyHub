@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Edit } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import { selectUser } from "../features/userSlice";
@@ -12,12 +12,13 @@ import { useSelector } from "react-redux";
 
 export default function MediaControlCard(cardContent) {
   const [isEditable, setIsEditable] = useState(false);
+  const [isDelete, setDelete] = useState(false);
   const user = useSelector(selectUser);
   const [cardContents, setCardContents] = useState(cardContent.cardContent);
   console.log(cardContents);
   return (
     <>
-      {!isEditable ? (
+      {!isEditable && !isDelete ? (
         <Card sx={{ maxWidth: 345, margin: 5 }}>
           <CardMedia
             component="img"
@@ -48,7 +49,7 @@ export default function MediaControlCard(cardContent) {
             </Button>
           </CardActions>
         </Card>
-      ) : user.role === "Customer" ? (
+      ) : user.role === "Customer" && isDelete ? (
         <>
           <Card sx={{ maxWidth: 345, margin: 5 }}>
             <CardMedia
@@ -92,7 +93,7 @@ export default function MediaControlCard(cardContent) {
             </CardActions>
           </Card>
         </>
-      ) : (
+      ) : !isDelete ? (
         <>
           <>
             <Card sx={{ maxWidth: 345, margin: 5 }}>
@@ -156,10 +157,19 @@ export default function MediaControlCard(cardContent) {
                 >
                   Confirm
                 </Button>
+                <Button
+                  onClick={() => {
+                    setDelete(true);
+                  }}
+                >
+                  <Delete />
+                </Button>
               </CardActions>
             </Card>
           </>
         </>
+      ) : (
+        <></>
       )}
     </>
   );
