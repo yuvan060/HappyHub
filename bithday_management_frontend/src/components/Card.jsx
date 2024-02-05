@@ -36,6 +36,15 @@ export default function MediaControlCard(cardContent) {
             <Typography variant="body2" color="text.secondary">
               {cardContents.cost}
             </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Category : {cardContents.category}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Add-on : {cardContents.addOn}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Food : {cardContents.food}
+            </Typography>
           </CardContent>
           <CardActions>
             <Button size="small">View</Button>
@@ -49,7 +58,7 @@ export default function MediaControlCard(cardContent) {
             </Button>
           </CardActions>
         </Card>
-      ) : user.role === "Customer" && isDelete ? (
+      ) : user.role === "Customer" ? (
         <>
           <Card sx={{ maxWidth: 345, margin: 5 }}>
             <CardMedia
@@ -78,6 +87,12 @@ export default function MediaControlCard(cardContent) {
               ></TextField>
               <Typography variant="body2" color="text.secondary">
                 {cardContents.cost}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {cardContents.category}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {cardContents.addOn}
               </Typography>
             </CardContent>
             <CardActions>

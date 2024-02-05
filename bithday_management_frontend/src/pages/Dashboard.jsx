@@ -22,6 +22,9 @@ const cardContent = [
       "https://img.freepik.com/free-photo/children-celebrating-birthday_23-2148155321.jpg?t=st=1706633707~exp=1706634307~hmac=d9a09433c1f8fb80b769be5dd9cc2cd94c2688ed4c907eb991a5de7fbd06ac8b",
     description: "lorem ipsum dolor sit amet, consectetur ",
     cost: "$100",
+    category: "Pool party",
+    addOn: "Magic Show",
+    food: "BBQ",
   },
 ];
 
@@ -252,6 +255,15 @@ const Dashboard = () => {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {cardContent[0].cost}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Category : {cardContent[0].category}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Add-on : {cardContent[0].addOn}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Food : {cardContent[0].food}
               </Typography>
             </CardContent>
             <CardActions>

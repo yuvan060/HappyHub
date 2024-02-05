@@ -66,14 +66,7 @@ const Packages = () => {
   };
 
   const handleSaveClick = () => {
-    setEditMode(false);
-    setEditedPackage(null);
-
-    // Update state before saving to localStorage
-    setPackagesData([packagesData]);
-
-    // Save data to local storage
-    localStorage.setItem("packagesData", JSON.stringify(packagesData));
+    //
   };
 
   return (
