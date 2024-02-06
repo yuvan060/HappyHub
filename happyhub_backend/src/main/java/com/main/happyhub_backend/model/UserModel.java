@@ -1,86 +1,36 @@
 package com.main.happyhub_backend.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String email;
-    
-    private String password;
-    private String username;
     private String mobileNumber;
-    private String userRole;
-    
-    public UserModel() {
-    }
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany(mappedBy = "userModel")
+    @JsonIgnore
+    private List<EventModel> events;
 
-    public UserModel(int id, String email, String password, String username, String mobileNumber, String userRole) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.mobileNumber = mobileNumber;
-        this.userRole = userRole;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-    @Override
-    public String toString() {
-        return "UserModel [id=" + id + ", email=" + email + ", password=" + password + ", username=" + username
-                + ", mobileNumber=" + mobileNumber + ", userRole=" + userRole + "]";
-    }
-    
 }

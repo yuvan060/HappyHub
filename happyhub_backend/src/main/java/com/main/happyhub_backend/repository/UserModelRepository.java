@@ -5,8 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.main.happyhub_backend.model.User;
+import com.main.happyhub_backend.model.UserModel;
 
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface UserModelRepository extends JpaRepository<UserModel,Integer> {
+    Optional<UserModel> findByUser(User user);
 }

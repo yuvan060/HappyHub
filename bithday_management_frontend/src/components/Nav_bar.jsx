@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import { AccountCircle, Logout, ManageAccounts } from "@mui/icons-material";
+import { AccountCircle, Logout } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
@@ -88,7 +88,6 @@ function PrimarySearchAppBar() {
       <List>
         {[
           { name: "My DashBoard", link: "/profile/dashboard" },
-          { name: "My Profile", link: "/profile" },
           { name: "Logout", link: "/logout" },
         ].map((text, index) => (
           <ListItem
@@ -100,13 +99,7 @@ function PrimarySearchAppBar() {
           >
             <ListItemButton>
               <ListItemIcon>
-                {index === 0 ? (
-                  <AccountCircle />
-                ) : index === 1 ? (
-                  <ManageAccounts />
-                ) : (
-                  <Logout />
-                )}
+                {index === 0 ? <AccountCircle /> : <Logout />}
               </ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItemButton>

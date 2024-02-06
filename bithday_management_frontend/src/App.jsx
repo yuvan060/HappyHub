@@ -10,9 +10,6 @@ import { selectUser } from "./features/userSlice";
 import Error from "./pages/Error";
 import View_schedule from "./pages/View_schedule";
 import Add_themes from "./pages/Add_themes";
-import Profile from "./pages/Profile";
-import AccountSettings from "./components/Account_setting";
-import ChangePassword from "./components/Change_password";
 import Dashboard from "./pages/Dashboard";
 import Book_events from "./pages/Book_events";
 import Book_events_2 from "./pages/Books_events_2";
@@ -43,12 +40,6 @@ function App() {
           <Route path="/admin/themes" element={<Add_themes />} />
           <Route path="/admin/addons" element={<Addons />} />
           <Route path="/admin/add-foods" element={<Foods />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/profile/account-settings"
-            element={<AccountSettings />}
-          />
-          <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile/dashboard" element={<Dashboard />} />
           <Route path="/customer/book-schedule" element={<Book_events />} />
           <Route
