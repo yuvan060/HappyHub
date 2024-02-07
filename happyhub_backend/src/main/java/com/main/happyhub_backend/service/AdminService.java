@@ -83,6 +83,49 @@ public class AdminService {
         return "Add-on added successfully";
     }
 
+    public String updateThemes(ThemeModel themeModel){
+        Optional<ThemeModel> themes = themeRepository.findById(themeModel.getThemeId());
+        if(themes.isEmpty()){
+            return "Themes not found";
+        }
+        themes.get().setThemeName(themeModel.getThemeName());
+        themes.get().setThemeImageURL(themeModel.getThemeImageURL());
+        themes.get().setThemeDescription(themeModel.getThemeDescription());
+        themes.get().setThemeCost(themeModel.getThemeCost());
+        themes.get().setThemePhotographer(themeModel.getThemePhotographer());
+        themes.get().setThemeReturnGift(themeModel.getThemeReturnGift());
+        themes.get().setThemeVideographer(themeModel.getThemeVideographer());
+        themes.get().setPublished(themeModel.isPublished());
+        themeRepository.save(themes.get());
+        return "Updated Successfully";
+    }
+
+    public String updateAddon(AddonModel addonModel) {
+        Optional<AddonModel> addon = addonRepository.findById(addonModel.getAddonId());
+        if (addon.isEmpty()) {
+            return "Addon not found";
+        }
+        addon.get().setAddonName(addonModel.getAddonName());
+        addon.get().setAddonDescription(addonModel.getAddonDescription());
+        addon.get().setAddonPrice(addonModel.getAddonPrice());
+        addon.get().setAddonImageURL(addonModel.getAddonImageURL());
+        addonRepository.save(addon.get());
+        return "Addon updated successfully";
+    }
+
+    public String updateFood(FoodModel foodModel) {
+        Optional<FoodModel> food = foodRepository.findById(foodModel.getFoodId());
+        if (food.isEmpty()) {
+            return "Food not found";
+        }
+        food.get().setFoodName(foodModel.getFoodName());
+        food.get().setFoodImageURL(foodModel.getFoodImageURL());
+        food.get().setFoodDescription(foodModel.getFoodDescription());
+        food.get().setFoodPrice(foodModel.getFoodPrice());
+        foodRepository.save(food.get());
+        return "Food updated successfully";
+    }
+
     public List<AddonModel> getAddOnsByAdmin(String email){
         Optional<AdminModel> admin = adminRepository.findByUserEmail(email);
         if(admin.isEmpty()){

@@ -10,10 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.time.LocalDateTime;
 
 
 @Data
@@ -31,8 +28,9 @@ public class EventModel {
     private String applicantMobile;
     private String reference;
     private String eventAddress;
-    private Date eventDate;
-    private LocalDateTime eventTime;
+    private String eventDescription;
+    private String eventDate;
+    private String eventTime;
     private int eventThemeId;
     private String eventFoodId;
     private int addonId;

@@ -49,6 +49,11 @@ public class UserController {
        return userService.updateUserModel(entity);
     }
 
+    @PutMapping("user/update-event")
+    public String updateEvent(@RequestBody EventModel entity) {
+        return userService.updateEvent(entity);
+    }
+
     @PostMapping("/user/add-event/{email}")
     public String bookEvent(@PathVariable String email,@RequestBody EventModel entity) {
         return userService.addEvent(email, entity);

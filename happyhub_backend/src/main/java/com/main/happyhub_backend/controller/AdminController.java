@@ -103,5 +103,18 @@ public class AdminController {
         return adminService.updateAdmin(entity);
     }
     
-
+    @PutMapping("admin/update-theme")
+    public String updateTheme(@RequestBody ThemeModel entity) {
+        return adminService.updateThemes(entity);
+    }
+    
+    @PutMapping("admin/update-addon")
+    public String updateAddons(@RequestBody AddonModel entity) {
+        return adminService.updateAddon(entity);
+    }
+    
+    @PutMapping("admin/update-food")
+    public String updateFood(@RequestBody FoodModel entity) {
+        return adminService.updateFood(entity);
+    }
 }

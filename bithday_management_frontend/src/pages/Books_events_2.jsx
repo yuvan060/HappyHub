@@ -77,16 +77,24 @@ function Book_events_2() {
     },
   ];
   const location = useLocation();
-  const bookingDetails = location.state;
-  const [themeId, setThemeId] = useState(0);
+  const [bookingDetails, setBookingDetails] = useState(location.state);
+  const [eventThemeId, setEventThemeId] = useState(0);
   const [addonId, setAddonId] = useState(0);
-  const [foodId, setFoodId] = useState(0);
+  const [eventFoodId, setEventFoodId] = useState([]);
 
-  const handleSubmit = () => {
-    console.log(themeId, addonId, foodId);
-    console.log(bookingDetails);
+  async function handleSubmit() {
+    const foodIdsString = eventFoodId.join("-");
+    const updatedBookingDetails = {
+      ...bookingDetails,
+      eventFoodId: foodIdsString,
+      eventThemeId: eventThemeId,
+      addonId: addonId,
+    };
+    await Promise.resolve(setBookingDetails(updatedBookingDetails));
+    console.log(updatedBookingDetails);
     notify("Event Successfully Added");
-  };
+  }
+
   const notify = (message) => toast.success(message);
 
   return (
@@ -105,8 +113,8 @@ function Book_events_2() {
               <Booking_card
                 key={index}
                 cardContent={card}
-                onClick={() => setThemeId(index)}
-                isSelected={themeId === index}
+                onClick={() => setEventThemeId(index)}
+                isSelected={eventThemeId === index}
               />
             </div>
           ))}
@@ -140,8 +148,16 @@ function Book_events_2() {
               <Booking_card
                 key={index}
                 cardContent={card}
-                onClick={() => setFoodId(index)}
-                isSelected={foodId === index}
+                onClick={() => {
+                  if (eventFoodId.includes(index)) {
+                    setEventFoodId(
+                      eventFoodId.filter((item) => item !== index)
+                    );
+                  } else {
+                    setEventFoodId([...eventFoodId, index]);
+                  }
+                }}
+                isSelected={eventFoodId.includes(index)}
               />
             </div>
           ))}

@@ -9,7 +9,6 @@ function Book_events() {
   const [bookingDetails, setBookingDetails] = useState({});
 
   const handleSubmit = (event) => {
-    // console.log(location);
     event.preventDefault();
     console.log(bookingDetails);
     navigate("/customer/booking-detail-confirm", { state: bookingDetails });
@@ -38,16 +37,16 @@ function Book_events() {
             <div className="flex-center-full-form">
               <div className="fields">
                 <TextField
-                  value={bookingDetails.eventname}
+                  value={bookingDetails.eventName}
                   onChange={(e) => {
                     setBookingDetails({
                       ...bookingDetails,
-                      eventname: e.target.value,
+                      eventName: e.target.value,
                     });
                   }}
                   required
                   type="text"
-                  id="name"
+                  id="eventName"
                   label="Event Name"
                   variant="outlined"
                   fullWidth
@@ -75,15 +74,15 @@ function Book_events() {
               <div className="fields">
                 <TextField
                   required
-                  value={bookingDetails.phoneNo}
+                  value={bookingDetails.applicantMobile}
                   onChange={(e) => {
                     setBookingDetails({
                       ...bookingDetails,
-                      phoneNo: e.target.value,
+                      applicantMobile: e.target.value,
                     });
                   }}
                   type="text"
-                  id="phone"
+                  id="applicantMobile"
                   label="Phone No"
                   variant="outlined"
                   fullWidth
@@ -103,35 +102,56 @@ function Book_events() {
                   id="reference"
                   label="Where do you hear about us?"
                   variant="outlined"
+                  // fullWidth
+                ></TextField>
+              </div>
+            </div>
+            <div className="flex-center-full-form">
+              <div className="fields">
+                <TextField
+                  required
+                  value={bookingDetails.eventDate}
+                  onChange={(e) => {
+                    setBookingDetails({
+                      ...bookingDetails,
+                      eventDate: e.target.value,
+                    });
+                  }}
+                  type="text"
+                  id="eventDate"
+                  label="Date"
+                  variant="outlined"
+                  fullWidth
+                ></TextField>
+              </div>
+              <div className="fields">
+                <TextField
+                  value={bookingDetails.eventTime}
+                  onChange={(e) => {
+                    setBookingDetails({
+                      ...bookingDetails,
+                      eventTime: e.target.value,
+                    });
+                  }}
+                  required
+                  type="text"
+                  label="Event Time"
+                  id="eventTime"
+                  variant="outlined"
                   fullWidth
                 ></TextField>
               </div>
             </div>
-            <div className="fields">
-              <TextField
-                value={bookingDetails.date}
-                onChange={(e) => {
-                  setBookingDetails({
-                    ...bookingDetails,
-                    date: e.target.value,
-                  });
-                }}
-                required
-                type="date"
-                id="date"
-                variant="outlined"
-                fullWidth
-              ></TextField>
-            </div>
+
             <div>
               <div className="fields">
                 <TextField
-                  value={bookingDetails.address}
+                  value={bookingDetails.eventAddress}
                   required
                   onChange={(e) => {
                     setBookingDetails({
                       ...bookingDetails,
-                      address: e.target.value,
+                      eventAddress: e.target.value,
                     });
                   }}
                   id="filled-multiline-flexible"
@@ -146,12 +166,12 @@ function Book_events() {
             <div>
               <div className="fields">
                 <TextField
-                  value={bookingDetails.description}
+                  value={bookingDetails.eventDescription}
                   required
                   onChange={(e) => {
                     setBookingDetails({
                       ...bookingDetails,
-                      description: e.target.value,
+                      eventDescription: e.target.value,
                     });
                   }}
                   id="filled-multiline-flexible"

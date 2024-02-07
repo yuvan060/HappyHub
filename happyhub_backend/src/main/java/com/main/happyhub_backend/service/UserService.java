@@ -71,4 +71,26 @@ public class UserService {
         return eventRepository.findById(eventId).get();
     }
 
+    public String updateEvent(EventModel eventModel){
+        Optional<EventModel> event = eventRepository.findById(eventModel.getEventId());
+        if(event.isEmpty()){
+            return "Event does not exist";
+        }
+        event.get().setEventName(eventModel.getEventName());
+        event.get().setApplicantAddress(eventModel.getApplicantAddress());
+        event.get().setAttendees(eventModel.getAttendees());
+        event.get().setApplicantMobile(eventModel.getApplicantMobile());
+        event.get().setReference(eventModel.getReference());
+        event.get().setEventAddress(eventModel.getEventAddress());
+        event.get().setEventDescription(eventModel.getEventDescription());
+        event.get().setEventDate(eventModel.getEventDate());
+        event.get().setEventTime(eventModel.getEventTime());
+        event.get().setEventThemeId(eventModel.getEventThemeId());
+        event.get().setEventFoodId(eventModel.getEventFoodId());
+        event.get().setAddonId(eventModel.getAddonId());
+        event.get().setEventCost(eventModel.getEventCost());
+        eventRepository.save(event.get());
+        return "Event updated successfully";
+    }
+
 }
