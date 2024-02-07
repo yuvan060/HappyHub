@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDateTime;
 
 
@@ -35,7 +34,7 @@ public class EventModel {
     private Date eventDate;
     private LocalDateTime eventTime;
     private int eventThemeId;
-    private int eventMenuId;
+    private String eventFoodId;
     private int addonId;
     private String eventCost;
     @ManyToOne

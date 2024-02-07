@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.happyhub_backend.model.AddonModel;
 import com.main.happyhub_backend.model.AdminModel;
+import com.main.happyhub_backend.model.FoodModel;
 import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.service.AdminService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,10 +43,21 @@ public class AdminController {
         return adminService.getAddOnsByAdmin(email);
    
     }
+    
+    @GetMapping("/admin/get-foods/{email}")
+    public List<FoodModel> getFoodByAdmin(@PathVariable String email) {
+        return adminService.getFoodByAdmin(email);
+   
+    }
 
     @GetMapping("/admin/get-all-themes")
     public List<ThemeModel> getAllThemes() {
         return adminService.getAllThemes();
+    }
+    
+    @GetMapping("/admin/get-all-foods")
+    public List<FoodModel> getAllFoods() {
+        return adminService.getAllFoods();
     }
    
     @GetMapping("/admin/get-all-addons")
@@ -63,6 +75,11 @@ public class AdminController {
         return adminService.getAddOnById(id);
     }
     
+    @GetMapping("/admin/get-food/{id}")
+    public FoodModel getFoodById(@PathVariable int id) {
+        return adminService.getFoodById(id);
+    }
+    
 
 
     @PostMapping("/admin/add-theme/{email}")
@@ -73,6 +90,11 @@ public class AdminController {
     @PostMapping("/admin/add-addons/{email}")
     public String postAddons(@PathVariable String email,@RequestBody AddonModel addonModel) {
         return adminService.addAddOns(email, addonModel);
+    }
+    
+    @PostMapping("/admin/add-foods/{email}")
+    public String postFood(@PathVariable String email,@RequestBody FoodModel addonModel) {
+        return adminService.addFood(email, addonModel);
     }
     
 

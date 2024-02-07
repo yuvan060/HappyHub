@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { Puff } from "react-loader-spinner";
-import MediaControlCard from "../components/Card";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
+import Food_card from "../components/Food_card";
 
 function Foods() {
   const [addFood, setAddFood] = useState(false);
@@ -15,32 +15,36 @@ function Foods() {
   };
   const [cardContent, setCardContent] = useState([
     {
-      eventName: "Cilantro Grilled Veg",
-      imageSrc:
+      foodName: "Cilantro Grilled Veg",
+      foodImageURL:
         "https://img.freepik.com/free-photo/grilled-violet-asparagus-wrapped-with-bacon_2829-11299.jpg?w=1060&t=st=1706636354~exp=1706636954~hmac=ae30d4bf629fa8115d80cfae7b00edcc7475f9a913ebb004a977c51b5574d4e1",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$100",
+      foodDescription: "lorem ipsum dolor sit amet, consectetur ",
+      foodPrice: "$100",
+      isPublished: true,
     },
     {
-      eventName: "Hot BBQ Wings",
-      imageSrc:
+      foodName: "Hot BBQ Wings",
+      foodImageURL:
         "https://img.freepik.com/free-photo/grilled-chicken-meat-appetizer-spicy-with-honey-generative-ai_188544-12164.jpg?t=st=1706636419~exp=1706637019~hmac=1dbf2dd8a36fb6d4820676cf279aafb73bc8749f5e0f64970a5b72d9ff5a1091",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$200",
+      foodDescription: "lorem ipsum dolor sit amet, consectetur ",
+      foodPrice: "$200",
+      isPublished: true,
     },
     {
-      eventName: "Mutton Masala Seekh",
-      imageSrc:
+      foodName: "Mutton Masala Seekh",
+      foodImageURL:
         "https://img.freepik.com/free-photo/hearty-beef-okra-stew-casserole-wooden-table-top-view-traditional-african-food_123827-27545.jpg?w=1060&t=st=1706636576~exp=1706637176~hmac=6dc0f07da9ddad0d6a1cc9acae1d799956f2d2a044f1f1f198a8ad99bdf4d8ba",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$300",
+      foodDescription: "lorem ipsum dolor sit amet, consectetur ",
+      foodPrice: "$300",
+      isPublished: true,
     },
     {
-      eventName: "Mutton Rogan",
-      imageSrc:
+      foodName: "Mutton Rogan",
+      foodImageURL:
         "https://img.freepik.com/free-photo/delicious-goulash-ready-dinner_23-2149370903.jpg?w=740&t=st=1706636656~exp=1706637256~hmac=6e635be8aa128141a0ff0c18b45487a813f02bc7ef88bcaf5782a038e2c008f7",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$500",
+      foodDescription: "lorem ipsum dolor sit amet, consectetur ",
+      foodPrice: "$500",
+      isPublished: false,
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -68,11 +72,7 @@ function Foods() {
             {cardContent &&
               cardContent.map((card, index) => (
                 <>
-                  <MediaControlCard
-                    key={index}
-                    cardContent={card}
-                    index={index}
-                  />
+                  <Food_card key={index} cardContent={card} index={index} />
                 </>
               ))}
           </div>
@@ -100,49 +100,49 @@ function Foods() {
                 <div className="flex-themes">
                   <div className="fields">
                     <TextField
-                      value={foods.eventName}
+                      value={foods.foodName}
                       onChange={(e) => {
                         setFoods({
                           ...foods,
-                          eventName: e.target.value,
+                          foodName: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="eventName"
+                      id="foodName"
                       label="Food Name"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={foods.imageSrc}
+                      value={foods.foodImageURL}
                       onChange={(e) => {
                         setFoods({
                           ...foods,
-                          imageSrc: e.target.value,
+                          foodImageURL: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="imageSrc"
+                      id="foodImageURL"
                       label="Image Source"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={foods.description}
+                      value={foods.foodDescription}
                       onChange={(e) => {
                         setFoods({
                           ...foods,
-                          description: e.target.value,
+                          foodDescription: e.target.value,
                         });
                       }}
                       required
                       multiline
                       maxRows={4}
-                      id="description"
+                      id="foodDescription"
                       label="Food description"
                       variant="outlined"
                       //   fullWidth
@@ -150,16 +150,16 @@ function Foods() {
                   </div>
                   <div className="fields">
                     <TextField
-                      value={foods.cost}
+                      value={foods.foodPrice}
                       onChange={(e) => {
                         setFoods({
                           ...foods,
-                          cost: e.target.value,
+                          foodPrice: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="description"
+                      id="foodPrice"
                       label="Food Cost"
                       variant="outlined"
                       //   fullWidth

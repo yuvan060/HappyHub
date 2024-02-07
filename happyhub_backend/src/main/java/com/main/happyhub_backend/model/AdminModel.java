@@ -36,4 +36,7 @@ public class AdminModel {
     @OneToMany(mappedBy = "adminModel")
     @JsonIgnore
     private List<AddonModel> addons;
+    @OneToMany(mappedBy = "adminModel")
+    @JsonIgnore
+    private List<FoodModel> foods;
 }

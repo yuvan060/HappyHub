@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.main.happyhub_backend.model.AddonModel;
 import com.main.happyhub_backend.model.AdminModel;
+import com.main.happyhub_backend.model.FoodModel;
 import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.model.User;
 import com.main.happyhub_backend.repository.AddonRepository;
 import com.main.happyhub_backend.repository.AdminRepository;
+import com.main.happyhub_backend.repository.FoodRepository;
 import com.main.happyhub_backend.repository.ThemeRepository;
 import com.main.happyhub_backend.repository.UserRepository;
 
@@ -25,6 +27,8 @@ public class AdminService {
     ThemeRepository themeRepository;
     @Autowired
     AddonRepository addonRepository;
+    @Autowired
+    FoodRepository foodRepository;
 
     public Optional<AdminModel> getAdmin(int id){
         return adminRepository.findById(id);
@@ -93,5 +97,31 @@ public class AdminService {
 
     public AddonModel getAddOnById(int id){
         return addonRepository.findById(id).get();
+    }
+    
+    public String addFood(String email,FoodModel foodModel){
+        Optional<AdminModel> admin = adminRepository.findByUserEmail(email);
+        if(admin.isEmpty()){
+            return "User not found";
+        }
+        foodModel.setAdminModel(admin.get());
+        foodRepository.save(foodModel);
+        return "Food added successfully";
+    }
+
+    public List<FoodModel> getFoodByAdmin(String email){
+        Optional<AdminModel> admin = adminRepository.findByUserEmail(email);
+        if(admin.isEmpty()){
+            return null;
+        }
+        return admin.get().getFoods();
+    }
+
+    public List<FoodModel> getAllFoods(){
+        return foodRepository.findAll();
+    }
+
+    public FoodModel getFoodById(int id){
+        return foodRepository.findById(id).get();
     }
 }
