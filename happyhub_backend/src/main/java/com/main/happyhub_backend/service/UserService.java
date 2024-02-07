@@ -28,8 +28,8 @@ public class UserService {
         return "Successfully added";
     }
 
-    public Optional<UserModel> getUser(int id){
-        return userRepository.findById(id);
+    public Optional<UserModel> getUser(String email){
+        return userRepository.findByUserEmail(email);
     }
 
     public List<UserModel> getAllUser(){
@@ -50,8 +50,8 @@ public class UserService {
         return "Updated Successfully";
     }
 
-    public String addEvent(int id,EventModel event){
-        Optional<UserModel> userModel = userRepository.findById(id);
+    public String addEvent(String email,EventModel event){
+        Optional<UserModel> userModel = userRepository.findByUserEmail(email);
         if(userModel.isEmpty()){
             return "User not found";
         }
@@ -60,11 +60,15 @@ public class UserService {
         return "Event Added Successfully";
     }
 
-    public List<EventModel> getEventsBookedByUser(int userId) {
-        Optional<UserModel> userOptional = userRepository.findById(userId);
+    public List<EventModel> getEventsBookedByUser(String email) {
+        Optional<UserModel> userOptional = userRepository.findByUserEmail(email);
             UserModel user = userOptional.get();
             return user.getEvents();
         
+    }
+
+    public EventModel getEventById(int eventId){
+        return eventRepository.findById(eventId).get();
     }
 
 }

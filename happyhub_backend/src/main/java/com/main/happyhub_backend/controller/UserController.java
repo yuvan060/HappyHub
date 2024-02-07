@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
-
 
 
 
@@ -27,19 +23,25 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/get-users")
-    public List<UserModel> getMethodName() {
+    public List<UserModel> getAllUser() {
        return userService.getAllUser();
     }
 
-    @GetMapping("/get-user/{id}")
-    public Optional<UserModel> getUserById(@PathVariable int id){
-        return userService.getUser(id);
+    @GetMapping("/get-user/{email}")
+    public Optional<UserModel> getUserById(@PathVariable String email){
+        return userService.getUser(email);
     }
 
-    @GetMapping("/user/booked-events/{id}")
-    public List<EventModel> getMethodName(@PathVariable int id) {
-        return userService.getEventsBookedByUser(id);
+    @GetMapping("/user/booked-events/{email}")
+    public List<EventModel> getBookedEvents(@PathVariable String email) {
+        return userService.getEventsBookedByUser(email);
     }
+
+    @GetMapping("/user/get-event/{id}")
+    public EventModel getEventById(@PathVariable int id) {
+        return userService.getEventById(id);
+    }
+    
     
     
     @PutMapping("/user/update")
@@ -47,9 +49,9 @@ public class UserController {
        return userService.updateUserModel(entity);
     }
 
-    @PostMapping("/user/add-event/{id}")
-    public String postMethodName(@PathVariable int id,@RequestBody EventModel entity) {
-        return userService.addEvent(id, entity);
+    @PostMapping("/user/add-event/{email}")
+    public String bookEvent(@PathVariable String email,@RequestBody EventModel entity) {
+        return userService.addEvent(email, entity);
     }
     
 }

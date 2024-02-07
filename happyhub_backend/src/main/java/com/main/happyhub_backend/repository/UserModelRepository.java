@@ -10,4 +10,5 @@ import com.main.happyhub_backend.model.UserModel;
 
 public interface UserModelRepository extends JpaRepository<UserModel,Integer> {
     Optional<UserModel> findByUser(User user);
+    Optional<UserModel> findByUserEmail(String email);
 }

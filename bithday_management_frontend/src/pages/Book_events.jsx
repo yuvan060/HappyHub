@@ -56,16 +56,16 @@ function Book_events() {
               <div className="fields">
                 <TextField
                   required
-                  value={bookingDetails.email}
+                  value={bookingDetails.attendees}
                   onChange={(e) => {
                     setBookingDetails({
                       ...bookingDetails,
-                      email: e.target.value,
+                      attendees: e.target.value,
                     });
                   }}
-                  type="email"
-                  id="email"
-                  label="Email"
+                  type="text"
+                  id="attendees"
+                  label="No of Attendees"
                   variant="outlined"
                   fullWidth
                 ></TextField>
@@ -106,6 +106,22 @@ function Book_events() {
                   fullWidth
                 ></TextField>
               </div>
+            </div>
+            <div className="fields">
+              <TextField
+                value={bookingDetails.date}
+                onChange={(e) => {
+                  setBookingDetails({
+                    ...bookingDetails,
+                    date: e.target.value,
+                  });
+                }}
+                required
+                type="date"
+                id="date"
+                variant="outlined"
+                fullWidth
+              ></TextField>
             </div>
             <div>
               <div className="fields">

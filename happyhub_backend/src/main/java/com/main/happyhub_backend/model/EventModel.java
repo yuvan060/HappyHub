@@ -11,6 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 
 
@@ -24,10 +27,10 @@ public class EventModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eventId;
     private String eventName;
-    private String applicantName;
     private String applicantAddress;
+    private int attendees;
     private String applicantMobile;
-    private String applicantEmail;
+    private String reference;
     private String eventAddress;
     private Date eventDate;
     private LocalDateTime eventTime;
@@ -36,5 +39,6 @@ public class EventModel {
     private int addonId;
     private String eventCost;
     @ManyToOne
+    @JsonIgnore
     private UserModel userModel;
 }
