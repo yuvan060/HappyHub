@@ -10,5 +10,6 @@ import com.main.happyhub_backend.model.User;
 
 public interface AdminRepository extends CrudRepository<AdminModel, Integer>{
     Optional<AdminModel> findByUser(User user);
+    Optional<AdminModel> findByUserEmail(String email);
 }
 

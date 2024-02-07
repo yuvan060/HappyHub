@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { Puff } from "react-loader-spinner";
-import MediaControlCard from "../components/Card";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
+import Add_on_card from "../components/Add-on_card";
 
 function Addons() {
   const [addOn, setAddOn] = useState(false);
@@ -15,32 +15,36 @@ function Addons() {
   };
   const [cardContent, setCardContent] = useState([
     {
-      eventName: "Dj Party",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      imageSrc:
+      addonName: "Dj Party",
+      addonDescription: "lorem ipsum dolor sit amet, consectetur ",
+      addonImageURL:
         "https://img.freepik.com/free-photo/man-being-dj-party-medium-shot_23-2149646087.jpg?w=1060&t=st=1706631694~exp=1706632294~hmac=2f16a251e4a0971dd8265c77e01d7763577da1a0e8bb2079b12dc8264cd17765",
-      cost: "$100",
+      addonPrice: "$100",
+      isPublished: true,
     },
     {
-      eventName: "Magic Show",
-      imageSrc:
+      addonName: "Magic Show",
+      addonImageURL:
         "https://img.freepik.com/free-photo/front-view-woman-holding-tombola-tickets_23-2149704899.jpg?w=1060&t=st=1706631008~exp=1706631608~hmac=db20ba210b044e539659a3562f3e79a43ea429dda0c44f239e1bceb9a431423f",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$200",
+      addonDescription: "lorem ipsum dolor sit amet, consectetur ",
+      addonPrice: "$200",
+      isPublished: true,
     },
     {
-      eventName: "Music Show",
-      imageSrc:
+      addonName: "Music Show",
+      addonImageURL:
         "https://img.freepik.com/free-photo/glowing-stage-light-illuminates-cheering-rock-fans-generated-by-ai_188544-37983.jpg?w=1380&t=st=1706631740~exp=1706632340~hmac=4e8b5d5353b1cb64e5df5ef351d4154095b2f5b627edb740494051c171aaca82",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$300",
+      addonDescription: "lorem ipsum dolor sit amet, consectetur ",
+      addonPrice: "$300",
+      isPublished: true,
     },
     {
-      eventName: "Game Show",
-      imageSrc:
+      addonName: "Game Show",
+      addonImageURL:
         "https://img.freepik.com/free-photo/young-adults-playing-beer-pong_23-2149402815.jpg?w=1060&t=st=1706631386~exp=1706631986~hmac=833deaeece646a8b4904c2b22ab1a165458c354e415f69a98945ad9e1cf0df6a",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$500",
+      addonDescription: "lorem ipsum dolor sit amet, consectetur ",
+      addonPrice: "$500",
+      isPublished: false,
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -68,11 +72,7 @@ function Addons() {
             {cardContent &&
               cardContent.map((card, index) => (
                 <>
-                  <MediaControlCard
-                    key={index}
-                    cardContent={card}
-                    index={index}
-                  />
+                  <Add_on_card key={index} cardContent={card} index={index} />
                 </>
               ))}
           </div>
@@ -100,67 +100,67 @@ function Addons() {
                 <div className="flex-themes">
                   <div className="fields">
                     <TextField
-                      value={addOns.eventName}
+                      value={addOns.addonName}
                       onChange={(e) => {
                         setAddOns({
                           ...addOns,
-                          eventName: e.target.value,
+                          addonName: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="themeName"
-                      label="Theme Name"
+                      id="addonName"
+                      label="Add-on Name"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.imageSrc}
+                      value={addOns.addonImageURL}
                       onChange={(e) => {
                         setAddOns({
                           ...addOns,
-                          imageSrc: e.target.value,
+                          addonImageURL: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="imageSrc"
+                      id="addonImageURL"
                       label="Image Source"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.description}
+                      value={addOns.addonDescription}
                       onChange={(e) => {
                         setAddOns({
                           ...addOns,
-                          description: e.target.value,
+                          addonDescription: e.target.value,
                         });
                       }}
                       required
                       multiline
                       maxRows={4}
                       id="description"
-                      label="Theme description"
+                      label="Add-on description"
                       variant="outlined"
                       //   fullWidth
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={addOns.cost}
+                      value={addOns.addonPrice}
                       onChange={(e) => {
-                        addOns({
+                        setAddOns({
                           ...addOns,
-                          cost: e.target.value,
+                          addonPrice: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="description"
-                      label="Theme Cost"
+                      id="addonPrice"
+                      label="Add-on Cost"
                       variant="outlined"
                       //   fullWidth
                     ></TextField>

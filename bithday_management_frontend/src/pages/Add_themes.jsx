@@ -1,83 +1,63 @@
 import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { Puff } from "react-loader-spinner";
-import MediaControlCard from "../components/Card";
 import Footer from "../components/Footer";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import Theme_Card from "../components/Theme_card";
 
 function Add_themes() {
   const [addTheme, setAddTheme] = useState(false);
-  const [theme, setThemes] = useState({});
+  const [theme, setThemes] = useState({ isPublished: false });
   const handleSubmit = (e) => {
     e.preventDefault();
     setCardContent((prevCardContent) => [...prevCardContent, theme]);
     console.log(cardContent);
   };
-  const themes = [
-    { content: "Pool Party" },
-    { content: "Crafting" },
-    { content: "Brunch" },
-    { content: "Art party" },
-  ];
-  const addOns = [
-    { addOn: "Magic Show" },
-    { addOn: "Dj Party" },
-    { addOn: "Music Show" },
-    { addOn: "Game Show" },
-  ];
-  const foods = [
-    { food: "Magic Show" },
-    { food: "Dj Party" },
-    { food: "Music Show" },
-    { food: "Game Show" },
-  ];
+
   const [cardContent, setCardContent] = useState([
     {
-      eventName: "Event Party",
-      imageSrc:
+      themeName: "Event Party",
+      themeImageURL:
         "https://img.freepik.com/free-photo/friends-clinking-drink-glasses-modern-bar_1150-18971.jpg?w=1060&t=st=1706633538~exp=1706634138~hmac=83d70b77f7f34018d773b33d2b24ab352b8ca98c7e1a9dc0af933e83f0de8bce",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$100",
-      category: "Pool party",
-      addOn: "Magic Show",
-      food: "BBQ",
+      themeDescription: "lorem ipsum dolor sit amet, consectetur ",
+      themeCost: "$100",
+      themePhotographer: "Pool party",
+      themeVideographer: "Magic Show",
+      themeReturnGift: "BBQ",
+      isPublished: true,
     },
     {
-      eventName: "Pool Party",
-      imageSrc:
+      themeName: "Pool Party",
+      themeImageURL:
         "https://img.freepik.com/free-photo/lively-pool-party-scene-with-vibrant-inflatables-upbeat-music-guests-enjoying-sun_1268-31145.jpg?t=st=1706632243~exp=1706632843~hmac=e535b5a86af204e860fa344a48bd82a2d98901dccdf2061ae3d0d3733585c27b",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$200",
-      category: "Pool party",
-      addOn: "Magic Show",
-      food: "BBQ",
+      themeDescription: "lorem ipsum dolor sit amet, consectetur ",
+      themeCost: "$200",
+      themePhotographer: "Pool party",
+      themeVideographer: "Magic Show",
+      themeReturnGift: "BBQ",
+      isPublished: true,
     },
     {
-      eventName: "Art Party",
-      imageSrc:
+      themeName: "Art Party",
+      themeImageURL:
         "https://img.freepik.com/free-photo/friends-giving-wrapped-gift-boxes-excited-birthday-girl_23-2148029782.jpg?w=1060&t=st=1706632359~exp=1706632959~hmac=eb01527d61605b1ba7b416ad1a7c1d9c707641f5b3f228136bc5f7e822d5bccd",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$300",
-      category: "Pool party",
-      addOn: "Magic Show",
-      food: "BBQ",
+      themeDescription: "lorem ipsum dolor sit amet, consectetur ",
+      themeCost: "$300",
+      themePhotographer: "Pool party",
+      themeVideographer: "Magic Show",
+      themeReturnGift: "BBQ",
+      isPublished: true,
     },
     {
-      eventName: "Crafting",
-      imageSrc:
+      themeName: "Crafting",
+      themeImageURL:
         "https://img.freepik.com/free-photo/young-children-making-diy-project-from-upcycled-materials_23-2149391106.jpg?w=1060&t=st=1706633049~exp=1706633649~hmac=60c0c486212da43852bb058e244732192cc4540cdc1c3245fcb500346ea220a3",
-      description: "lorem ipsum dolor sit amet, consectetur ",
-      cost: "$500",
-      category: "Pool party",
-      addOn: "Magic Show",
-      food: "BBQ",
+      themeDescription: "lorem ipsum dolor sit amet, consectetur ",
+      themeCost: "$500",
+      themePhotographer: "Pool party",
+      themeVideographer: "Magic Show",
+      themeReturnGift: "BBQ",
+      isPublished: false,
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -105,11 +85,7 @@ function Add_themes() {
             {cardContent &&
               cardContent.map((card, index) => (
                 <>
-                  <MediaControlCard
-                    key={index}
-                    cardContent={card}
-                    index={index}
-                  />
+                  <Theme_Card key={index} cardContent={card} index={index} />
                 </>
               ))}
           </div>
@@ -137,11 +113,11 @@ function Add_themes() {
                 <div className="flex-themes">
                   <div className="fields">
                     <TextField
-                      value={theme.eventName}
+                      value={theme.themeName}
                       onChange={(e) => {
                         setThemes({
                           ...theme,
-                          eventName: e.target.value,
+                          themeName: e.target.value,
                         });
                       }}
                       required
@@ -153,27 +129,27 @@ function Add_themes() {
                   </div>
                   <div className="fields">
                     <TextField
-                      value={theme.imageSrc}
+                      value={theme.themeImageURL}
                       onChange={(e) => {
                         setThemes({
                           ...theme,
-                          imageSrc: e.target.value,
+                          themeImageURL: e.target.value,
                         });
                       }}
                       required
                       type="text"
-                      id="imageSrc"
+                      id="themeImageURL"
                       label="Image Source"
                       variant="outlined"
                     ></TextField>
                   </div>
                   <div className="fields">
                     <TextField
-                      value={theme.description}
+                      value={theme.themeDescription}
                       onChange={(e) => {
                         setThemes({
                           ...theme,
-                          description: e.target.value,
+                          themeDescription: e.target.value,
                         });
                       }}
                       required
@@ -185,70 +161,62 @@ function Add_themes() {
                       //   fullWidth
                     ></TextField>
                   </div>
-                  <FormControl style={{ width: "23%" }} required>
-                    <InputLabel>Choose Category</InputLabel>
-                    <Select label="Choose Category">
-                      {themes.map((c, index) => (
-                        <MenuItem
-                          key={index}
-                          value={c.content}
-                          onClick={() => {
-                            setThemes({
-                              ...theme,
-                              category: c.content,
-                            });
-                          }}
-                        >
-                          {c.content}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl required style={{ width: "23%", margin: "1%" }}>
-                    <InputLabel>Choose Addons</InputLabel>
-                    <Select fullWidth label="Choose Category">
-                      {addOns.map((c, index) => (
-                        <MenuItem
-                          key={index}
-                          value={c.addOn}
-                          onClick={() => {
-                            setThemes({
-                              ...theme,
-                              addOn: c.addOn,
-                            });
-                          }}
-                        >
-                          {c.addOn}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl required style={{ width: "23%", margin: "1%" }}>
-                    <InputLabel>Choose Foods</InputLabel>
-                    <Select fullWidth label="Choose Category">
-                      {foods.map((c, index) => (
-                        <MenuItem
-                          key={index}
-                          value={c.food}
-                          onClick={() => {
-                            setThemes({
-                              ...theme,
-                              food: c.food,
-                            });
-                          }}
-                        >
-                          {c.food}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
                   <div className="fields">
                     <TextField
-                      value={theme.cost}
+                      value={theme.themePhotographer}
                       onChange={(e) => {
                         setThemes({
                           ...theme,
-                          cost: e.target.value,
+                          themePhotographer: e.target.value,
+                        });
+                      }}
+                      required
+                      type="text"
+                      id="themePhotographer"
+                      label="Photographer"
+                      variant="outlined"
+                    ></TextField>
+                  </div>
+
+                  <div className="fields">
+                    <TextField
+                      value={theme.themeVideographer}
+                      onChange={(e) => {
+                        setThemes({
+                          ...theme,
+                          themeVideographer: e.target.value,
+                        });
+                      }}
+                      required
+                      type="text"
+                      id="themeVideographer"
+                      label="Videographer"
+                      variant="outlined"
+                    ></TextField>
+                  </div>
+                  <div className="fields">
+                    <TextField
+                      value={theme.themeReturnGift}
+                      onChange={(e) => {
+                        setThemes({
+                          ...theme,
+                          themeReturnGift: e.target.value,
+                        });
+                      }}
+                      required
+                      type="text"
+                      id="themeReturnGift"
+                      label="themeReturnGift"
+                      variant="outlined"
+                    ></TextField>
+                  </div>
+                  <div className="fields">
+                    <TextField
+                      value={theme.themeCost}
+                      onChange={(e) => {
+                        setThemes({
+                          ...theme,
+                          themeCost: e.target.value,
                         });
                       }}
                       required
