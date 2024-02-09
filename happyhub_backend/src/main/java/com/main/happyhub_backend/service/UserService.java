@@ -6,10 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.main.happyhub_backend.model.AddonModel;
 import com.main.happyhub_backend.model.EventModel;
+import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.model.User;
 import com.main.happyhub_backend.model.UserModel;
+import com.main.happyhub_backend.repository.AddonRepository;
 import com.main.happyhub_backend.repository.EventRepository;
+import com.main.happyhub_backend.repository.ThemeRepository;
 import com.main.happyhub_backend.repository.UserModelRepository;
 import com.main.happyhub_backend.repository.UserRepository;
 
@@ -22,6 +26,10 @@ public class UserService {
     UserRepository userRepo;
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    ThemeRepository themeRepository;
+    @Autowired
+    AddonRepository addonRepository;
 
     public String addUser(UserModel userModel) {
         userRepository.save(userModel);
@@ -55,6 +63,14 @@ public class UserService {
         if(userModel.isEmpty()){
             return "User not found";
         }
+        Optional<ThemeModel> themeOptional = themeRepository.findById(event.getEventTheme().getThemeId());
+        if(!themeOptional.isEmpty()){
+            event.setEventTheme(themeOptional.get());
+        }
+        Optional<AddonModel> addonOptional = addonRepository.findById(event.getAddon().getAddonId());
+        if(!addonOptional.isEmpty()){
+            event.setAddon(addonOptional.get());
+        }
         event.setUserModel(userModel.get());
         eventRepository.save(event);
         return "Event Added Successfully";
@@ -71,6 +87,10 @@ public class UserService {
         return eventRepository.findById(eventId).get();
     }
 
+    public List<EventModel> getEvents(){
+        return eventRepository.findAll();
+    }
+
     public String updateEvent(EventModel eventModel){
         Optional<EventModel> event = eventRepository.findById(eventModel.getEventId());
         if(event.isEmpty()){
@@ -85,9 +105,9 @@ public class UserService {
         event.get().setEventDescription(eventModel.getEventDescription());
         event.get().setEventDate(eventModel.getEventDate());
         event.get().setEventTime(eventModel.getEventTime());
-        event.get().setEventThemeId(eventModel.getEventThemeId());
+        // event.get().setEventThemeId(eventModel.getEventThemeId());
         event.get().setEventFoodId(eventModel.getEventFoodId());
-        event.get().setAddonId(eventModel.getAddonId());
+        // event.get().setAddonId(eventModel.getAddonId());
         event.get().setEventCost(eventModel.getEventCost());
         eventRepository.save(event.get());
         return "Event updated successfully";

@@ -11,6 +11,9 @@ import com.main.happyhub_backend.model.AdminModel;
 import com.main.happyhub_backend.model.FoodModel;
 import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.service.AdminService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,7 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
+
 @RestController
+@CrossOrigin
 public class AdminController {
 
     @Autowired
@@ -80,6 +85,11 @@ public class AdminController {
         return adminService.getFoodById(id);
     }
     
+    @GetMapping("/get-booked-food/{pattern}")
+    public List<FoodModel> getMethodName(@PathVariable String pattern) {
+        return adminService.getFoodById(pattern);
+    }
+    
 
 
     @PostMapping("/admin/add-theme/{email}")
@@ -116,5 +126,20 @@ public class AdminController {
     @PutMapping("admin/update-food")
     public String updateFood(@RequestBody FoodModel entity) {
         return adminService.updateFood(entity);
+    }
+
+    @DeleteMapping("admin/delete-theme/{id}")
+    public String deleteTheme(@PathVariable int id) {
+        return adminService.deleteTheme(id);
+    }
+
+    @DeleteMapping("admin/delete-addon/{id}")
+    public String deleteAddon(@PathVariable int id){
+        return adminService.deleteAddon(id);
+    }
+
+    @DeleteMapping("admin/delete-food/{id}")
+    public String deleteFood(@PathVariable int id){
+        return adminService.deleteFood(id);
     }
 }

@@ -160,11 +160,42 @@ public class AdminService {
         return admin.get().getFoods();
     }
 
+    public List<FoodModel> getFoodById(String pattern){
+        return foodRepository.findByFoodIdPattern(pattern);
+    }
+
     public List<FoodModel> getAllFoods(){
         return foodRepository.findAll();
     }
 
     public FoodModel getFoodById(int id){
         return foodRepository.findById(id).get();
+    }
+
+    public String deleteTheme(int id){
+        Optional<ThemeModel> theme = themeRepository.findById(id);
+        if(theme.isEmpty()){
+            return "Theme not found";
+        }
+        themeRepository.deleteById(id);
+        return "Theme Deleted";
+    }
+
+    public String deleteAddon(int id){
+        Optional<AddonModel> addon = addonRepository.findById(id);
+        if(addon.isEmpty()){
+            return "Addon not found";
+        }
+        addonRepository.deleteById(id);
+        return "Addon Deleted";
+    }
+
+    public String deleteFood(int id){
+        Optional<FoodModel> food = foodRepository.findById(id);
+        if(food.isEmpty()){
+            return "Food not found";
+        }
+        foodRepository.deleteById(id);
+        return "Food Deleted";
     }
 }

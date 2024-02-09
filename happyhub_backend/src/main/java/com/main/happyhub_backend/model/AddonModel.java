@@ -25,6 +25,7 @@ public class AddonModel {
     private String addonImageURL;
     private String addonDescription;
     private String addonPrice;
+    private boolean isPublished;
     @ManyToOne
     @JsonIgnore
     private AdminModel adminModel;    

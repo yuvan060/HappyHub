@@ -25,6 +25,7 @@ public class FoodModel {
     private String foodImageURL;
     private String foodDescription;
     private String foodPrice;
+    private boolean isPublished;
     @ManyToOne
     @JsonIgnore
     private AdminModel adminModel; 

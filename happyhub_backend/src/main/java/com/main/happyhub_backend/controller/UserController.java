@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.main.happyhub_backend.service.UserService;
 import com.main.happyhub_backend.model.EventModel;
 import com.main.happyhub_backend.model.UserModel;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     UserService userService;
@@ -42,7 +45,10 @@ public class UserController {
         return userService.getEventById(id);
     }
     
-    
+    @GetMapping("/get-all-events")
+    public List<EventModel> getAllEvents(){
+        return userService.getEvents();
+    }
     
     @PutMapping("/user/update")
     public String updateUser(@RequestBody UserModel entity) {

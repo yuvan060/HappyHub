@@ -5,10 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,9 +33,12 @@ public class EventModel {
     private String eventDescription;
     private String eventDate;
     private String eventTime;
-    private int eventThemeId;
+    private boolean isCompleted;
+    @OneToOne
+    private ThemeModel eventTheme;
     private String eventFoodId;
-    private int addonId;
+    @OneToOne
+    private AddonModel addon;
     private String eventCost;
     @ManyToOne
     @JsonIgnore
