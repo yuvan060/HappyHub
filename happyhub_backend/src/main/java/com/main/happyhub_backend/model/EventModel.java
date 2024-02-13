@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,11 +33,9 @@ public class EventModel {
     private String eventDate;
     private String eventTime;
     private boolean isCompleted;
-    @OneToOne
-    private ThemeModel eventTheme;
+    private int eventTheme;
     private String eventFoodId;
-    @OneToOne
-    private AddonModel addon;
+    private int addon;
     private String eventCost;
     @ManyToOne
     @JsonIgnore

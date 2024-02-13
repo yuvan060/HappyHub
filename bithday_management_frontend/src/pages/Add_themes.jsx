@@ -4,14 +4,49 @@ import { Puff } from "react-loader-spinner";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
 import Theme_Card from "../components/Theme_card";
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
+import AdminService from "../services/AdminService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Add_themes() {
+  const notify = (msg) => toast.success(msg);
+  const notifyError = (msg) => toast.error(msg);
+  const user = useSelector(selectUser);
   const [addTheme, setAddTheme] = useState(false);
   const [theme, setThemes] = useState({ isPublished: false });
-  const handleSubmit = (e) => {
+
+  useEffect(() => {
+    const response = AdminService.GetThemes(user.email, user.token).then(
+      (res) => {
+        setCardContent(res.data);
+      }
+    );
+    console.log(response);
+  }, [user.email, user.token]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setCardContent((prevCardContent) => [...prevCardContent, theme]);
-    console.log(cardContent);
+    try {
+      const response = await AdminService.PostThemes(
+        user.email,
+        user.token,
+        theme
+      );
+      console.log(response);
+      notify("Themes added Successfully");
+      setAddTheme(false);
+      setCardContent((prevCardContent) => [...prevCardContent, theme]);
+    } catch (err) {
+      console.log(err);
+      if (err.response.status === 400) {
+        notifyError("Enter Valid Credentials");
+      } else {
+        notifyError(err.message);
+      }
+    }
+    // console.log(cardContent);
   };
 
   const [cardContent, setCardContent] = useState([
@@ -80,6 +115,7 @@ function Add_themes() {
         />
       ) : (
         <>
+          <ToastContainer />
           <PrimarySearchAppBar />
           <div className="flex-box-card">
             {cardContent &&
@@ -206,7 +242,7 @@ function Add_themes() {
                       required
                       type="text"
                       id="themeReturnGift"
-                      label="themeReturnGift"
+                      label="Return Gift"
                       variant="outlined"
                     ></TextField>
                   </div>

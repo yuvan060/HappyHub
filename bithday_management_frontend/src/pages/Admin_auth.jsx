@@ -7,6 +7,10 @@ import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
 import confetti from "../assets/images/login.jpg";
 import { Puff } from "react-loader-spinner";
+import AdminService from "../services/AdminService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import UserService from "../services/UserService";
 
 function Admin_auth() {
   const [loading, setLoading] = useState(false);
@@ -23,44 +27,31 @@ function Admin_auth() {
     email: "",
     password: "",
   });
-  const [admin, setAdmin] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleLogin = (e) => {
+  const notifyError = (message) => toast.error(message);
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const response = await AdminService.LoginAdmin({
+        email: adminLogin.email,
+        password: adminLogin.password,
+        role: "admin",
+      });
+      if (response.data.token === "Invalid Credentials") {
+        notifyError("Enter Valid Credentials");
+        return;
+      }
       dispatch(
         login({
           email: adminLogin.email,
           password: adminLogin.password,
+          token: response.data.token,
           role: "Admin",
           loggedIn: true,
         })
       );
       navigate("/");
     } catch (e) {
-      console.log(e);
-    }
-  };
-  const handleRegister = (e) => {
-    e.preventDefault();
-    try {
-      dispatch(
-        login({
-          email: admin.email,
-          password: admin.password,
-          role: "Admin",
-          loggedIn: true,
-        })
-      );
-      navigate("/");
-    } catch (e) {
-      console.log(e);
+      notifyError("Enter Valid Credentials");
     }
   };
 
@@ -77,15 +68,12 @@ function Admin_auth() {
         />
       ) : (
         <>
+          <ToastContainer />
           <PrimarySearchAppBar />
           <div className="flex-center-full-hw">
             <form
               onSubmit={(e) => {
-                if (state === "Login") {
-                  handleLogin(e);
-                } else {
-                  handleRegister(e);
-                }
+                handleLogin(e);
               }}
             >
               <h1>Admin</h1>
@@ -108,15 +96,6 @@ function Admin_auth() {
                     className="color-orange text-color"
                   >
                     Login
-                  </Button>
-                  |
-                  <Button
-                    onClick={() => {
-                      setState("Register");
-                    }}
-                    className="color-orange text-color"
-                  >
-                    Register
                   </Button>
                 </div>
               </div>
@@ -171,91 +150,7 @@ function Admin_auth() {
                   </div>
                 </>
               ) : (
-                <>
-                  <div className="field-container">
-                    <TextField
-                      value={admin.firstName}
-                      onChange={(e) => {
-                        setAdmin({ ...admin, firstName: e.target.value });
-                      }}
-                      type="text"
-                      id="first-name"
-                      label="First Name"
-                      required
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                  <div className="field-container">
-                    <TextField
-                      value={admin.lastName}
-                      onChange={(e) => {
-                        setAdmin({ ...admin, lastName: e.target.value });
-                      }}
-                      type="text"
-                      id="last-name"
-                      label="Last Name"
-                      required
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                  <div className="field-container">
-                    <TextField
-                      value={admin.email}
-                      onChange={(e) => {
-                        setAdmin({ ...admin, email: e.target.value });
-                      }}
-                      type="email"
-                      id="email"
-                      label="Email"
-                      required
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                  <div className="field-container">
-                    <TextField
-                      value={admin.password}
-                      onChange={(e) => {
-                        setAdmin({ ...admin, password: e.target.value });
-                      }}
-                      type="password"
-                      id="password"
-                      label="Password"
-                      required
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                  <div className="field-container">
-                    <TextField
-                      value={admin.confirmPassword}
-                      onChange={(e) => {
-                        setAdmin({
-                          ...admin,
-                          confirmPassword: e.target.value,
-                        });
-                      }}
-                      type="password"
-                      id="confirm-password"
-                      label="Confirm password"
-                      required
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                  <div className="field-container">
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      className="button-bg"
-                      fullWidth
-                    >
-                      Register
-                    </Button>
-                  </div>
-                </>
+                <>{""}</>
               )}
               <div className="button-header">
                 <Button

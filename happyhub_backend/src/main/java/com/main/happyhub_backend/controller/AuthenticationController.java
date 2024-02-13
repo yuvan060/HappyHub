@@ -29,7 +29,6 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        System.out.println(0000000000000000000000000000000000000000000000000000000);
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

@@ -1,13 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../components/Nav_bar";
 import { useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Booking_card from "../components/Booking_card";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import UserService from "../services/UserService";
+import Booking_theme_card from "../components/Booking_theme";
+import Booking_Addon_card from "../components/Booking_Addon";
+import Booking_food_card from "../components/Booking_food";
 
 function Book_events_2() {
-  const cardThemeContent = [
+  const user = useSelector(selectUser);
+  useEffect(() => {
+    UserService.GetThemes(user.token).then((res) => {
+      const filteredThemes = res.data.filter((theme) => theme.published);
+      setCardThemeContent(filteredThemes);
+    });
+    UserService.GetAddons(user.token).then((res) => {
+      const filteredAddons = res.data.filter((addon) => addon.published);
+      setCardAddonContent(filteredAddons);
+    });
+    UserService.GetFoods(user.token).then((res) => {
+      const filteredFoods = res.data.filter((food) => food.published);
+      setFood(filteredFoods);
+    });
+    // console.log(cardThemeContent, cardAddonContent, food);
+  }, [user.token]);
+  const [cardThemeContent, setCardThemeContent] = useState([
     {
       eventName: "Event Party",
       imageSrc:
@@ -29,8 +50,8 @@ function Book_events_2() {
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$300",
     },
-  ];
-  const cardAddonContent = [
+  ]);
+  const [cardAddonContent, setCardAddonContent] = useState([
     {
       eventName: "Dj Party",
       description: "lorem ipsum dolor sit amet, consectetur ",
@@ -52,8 +73,8 @@ function Book_events_2() {
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$300",
     },
-  ];
-  const food = [
+  ]);
+  const [food, setFood] = useState([
     {
       eventName: "Cilantro Grilled Veg",
       imageSrc:
@@ -75,24 +96,67 @@ function Book_events_2() {
       description: "lorem ipsum dolor sit amet, consectetur ",
       cost: "$300",
     },
-  ];
+  ]);
   const location = useLocation();
+  const [isBooked, setBooked] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(location.state);
-  const [eventThemeId, setEventThemeId] = useState(0);
-  const [addonId, setAddonId] = useState(0);
+  const [eventThemeId, setEventThemeId] = useState(-1);
+  const [addonId, setAddonId] = useState(-1);
   const [eventFoodId, setEventFoodId] = useState([]);
-
+  const notifyError = (msg) => toast.error(msg);
   async function handleSubmit() {
-    const foodIdsString = eventFoodId.join("-");
-    const updatedBookingDetails = {
-      ...bookingDetails,
-      eventFoodId: foodIdsString,
-      eventThemeId: eventThemeId,
-      addonId: addonId,
-    };
-    await Promise.resolve(setBookingDetails(updatedBookingDetails));
-    console.log(updatedBookingDetails);
-    notify("Event Successfully Added");
+    try {
+      if (eventThemeId == -1) {
+        notifyError("Please Select a theme");
+        return;
+      }
+      if (eventFoodId.length === 0) {
+        notifyError("Please Atleast a Food Menu");
+        return;
+      }
+      if (addonId === -1) {
+        notifyError("Booking without Add-ons 😐");
+      }
+      const selectedTheme = cardThemeContent.find(
+        (theme) => theme.themeId === eventThemeId
+      );
+      const selectedAddon = cardAddonContent.find(
+        (addon) => addon.addonId === addonId
+      );
+      const selectedFoods = eventFoodId.map((foodId) =>
+        food.find((foodItem) => foodItem.foodId === foodId)
+      );
+      const themeCost = parseInt(selectedTheme.themeCost, 10);
+      const addonCost = parseInt(selectedAddon.addonPrice.replace("$", ""), 10);
+      const foodCost = selectedFoods.reduce((total, foodItem) => {
+        return total + parseInt(foodItem.foodPrice.replace("$", ""), 10);
+      }, 0);
+
+      const totalCost =
+        themeCost + addonCost + foodCost * bookingDetails.attendees;
+      console.log(totalCost);
+      const foodIdsString = eventFoodId.join("-");
+      const updatedBookingDetails = {
+        ...bookingDetails,
+        eventFoodId: foodIdsString,
+        eventTheme: eventThemeId,
+        addon: addonId,
+        eventCost: totalCost,
+      };
+      setBookingDetails(updatedBookingDetails);
+      const response = await UserService.BookEvent(
+        user.email,
+        user.token,
+        updatedBookingDetails
+      );
+      console.log(updatedBookingDetails);
+      console.log(response);
+      notify("Event Successfully Added 😊");
+      setBooked(true);
+    } catch (err) {
+      console.log(err);
+      notifyError(err.msg);
+    }
   }
 
   const notify = (message) => toast.success(message);
@@ -102,75 +166,110 @@ function Book_events_2() {
       <PrimarySearchAppBar />
       <ToastContainer />
       <div className="flex-center-full-hw">
-        <div>
-          <center>
-            <h1>Select Theme</h1>{" "}
+        {cardThemeContent.length !== 0 ? (
+          <>
+            <div>
+              <center>
+                <h1>Available Themes : </h1>{" "}
+              </center>
+            </div>
+            <div className="flex-box-card">
+              {cardThemeContent.map((card, index) => (
+                <div key={index}>
+                  <Booking_theme_card
+                    key={index}
+                    cardContent={card}
+                    onClick={() => setEventThemeId(card.themeId)}
+                    isSelected={eventThemeId === card.themeId}
+                  />
+                </div>
+              ))}
+            </div>{" "}
+          </>
+        ) : (
+          <center style={{ margin: "5%" }}>
+            <h2>Ops!! No Themes Available</h2>
           </center>
-        </div>
-        <div className="flex-box-card">
-          {cardThemeContent.map((card, index) => (
-            <div key={index}>
-              <Booking_card
-                key={index}
-                cardContent={card}
-                onClick={() => setEventThemeId(index)}
-                isSelected={eventThemeId === index}
-              />
-            </div>
-          ))}
-        </div>
+        )}
+
         <div
-          style={{ height: "10px", width: "100%", backgroundColor: "black" }}
+          style={{
+            margin: "1%",
+            height: "5px",
+            width: "100%",
+            backgroundColor: "#ac87c5",
+          }}
         ></div>
-        <div>
-          <center>
-            <h1>Select Add Ons</h1>{" "}
+        {cardAddonContent.length !== 0 ? (
+          <>
+            <div>
+              <center>
+                <h1>Available Add Ons : </h1>{" "}
+              </center>
+            </div>
+            <div className="flex-box-card">
+              {cardAddonContent.map((card, index) => (
+                <div key={index}>
+                  <Booking_Addon_card
+                    key={index}
+                    cardContent={card}
+                    onClick={() => setAddonId(card.addonId)}
+                    isSelected={addonId === card.addonId}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <center style={{ margin: "5%" }}>
+            <h2>Ops!! No Addons Available</h2>
           </center>
-        </div>
-        <div className="flex-box-card">
-          {cardAddonContent.map((card, index) => (
-            <div key={index}>
-              <Booking_card
-                key={index}
-                cardContent={card}
-                onClick={() => setAddonId(index)}
-                isSelected={addonId === index}
-              />
-            </div>
-          ))}
-        </div>
+        )}
         <div
-          style={{ height: "10px", width: "100%", backgroundColor: "black" }}
+          style={{ height: "5px", width: "100%", backgroundColor: "#ac87c5" }}
         ></div>
-        <div className="flex-box-card">
-          {food.map((card, index) => (
-            <div key={index}>
-              <Booking_card
-                key={index}
-                cardContent={card}
-                onClick={() => {
-                  if (eventFoodId.includes(index)) {
-                    setEventFoodId(
-                      eventFoodId.filter((item) => item !== index)
-                    );
-                  } else {
-                    setEventFoodId([...eventFoodId, index]);
-                  }
-                }}
-                isSelected={eventFoodId.includes(index)}
-              />
+        {food.length !== 0 ? (
+          <>
+            <div className="flex-box-card">
+              {food.map((card, index) => (
+                <div key={index}>
+                  <Booking_food_card
+                    key={index}
+                    cardContent={card}
+                    onClick={() => {
+                      if (eventFoodId.includes(card.foodId)) {
+                        setEventFoodId(
+                          eventFoodId.filter((item) => item !== card.foodId)
+                        );
+                      } else {
+                        setEventFoodId([...eventFoodId, card.foodId]);
+                      }
+                    }}
+                    isSelected={eventFoodId.includes(card.foodId)}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div>
-          <Button
-            className="button-bg"
-            style={{ color: "white", width: "100%" }}
-            onClick={handleSubmit}
-          >
-            Book Event
-          </Button>
-        </div>
+          </>
+        ) : (
+          <center style={{ margin: "5%" }}>
+            <h2>Ops!! No Dishes Available</h2>
+          </center>
+        )}
+
+        {!isBooked ? (
+          <div>
+            <Button
+              className="button-bg"
+              style={{ color: "white", width: "100%" }}
+              onClick={handleSubmit}
+            >
+              Book Event
+            </Button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

@@ -4,14 +4,43 @@ import { Puff } from "react-loader-spinner";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
 import Add_on_card from "../components/Add-on_card";
+import AdminService from "../services/AdminService";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Addons() {
   const [addOn, setAddOn] = useState(false);
   const [addOns, setAddOns] = useState({});
-  const handleSubmit = (e) => {
+  const user = useSelector(selectUser);
+  const notify = (msg) => toast.success(msg);
+  const notifyError = (msg) => toast.error(msg);
+  useEffect(() => {
+    AdminService.GetAddons(user.email, user.token)
+      .then((res) => {
+        setCardContent(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching addons:", error);
+      });
+  }, [user.email, user.token]);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setCardContent((prevCardContent) => [...prevCardContent, addOns]);
-    console.log(cardContent);
+    try {
+      const response = await AdminService.PostAddons(
+        user.email,
+        user.token,
+        addOns
+      );
+      console.log(response);
+      notify("Addons added successfully");
+      setAddOn(false);
+      setCardContent((prevCardContent) => [...prevCardContent, addOns]);
+    } catch (e) {
+      notifyError(e.message);
+    }
+    // console.log(cardContent);
   };
   const [cardContent, setCardContent] = useState([
     {
@@ -67,8 +96,9 @@ function Addons() {
         />
       ) : (
         <>
+          <ToastContainer />
           <PrimarySearchAppBar />
-          <div className="flex-box-card">
+          <div className="flex-box-card" style={{ color: "#d0d0d0" }}>
             {cardContent &&
               cardContent.map((card, index) => (
                 <>

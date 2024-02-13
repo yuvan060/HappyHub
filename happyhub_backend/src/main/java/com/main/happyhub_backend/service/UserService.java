@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.main.happyhub_backend.model.AddonModel;
 import com.main.happyhub_backend.model.EventModel;
-import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.model.User;
 import com.main.happyhub_backend.model.UserModel;
 import com.main.happyhub_backend.repository.AddonRepository;
@@ -62,14 +60,6 @@ public class UserService {
         Optional<UserModel> userModel = userRepository.findByUserEmail(email);
         if(userModel.isEmpty()){
             return "User not found";
-        }
-        Optional<ThemeModel> themeOptional = themeRepository.findById(event.getEventTheme().getThemeId());
-        if(!themeOptional.isEmpty()){
-            event.setEventTheme(themeOptional.get());
-        }
-        Optional<AddonModel> addonOptional = addonRepository.findById(event.getAddon().getAddonId());
-        if(!addonOptional.isEmpty()){
-            event.setAddon(addonOptional.get());
         }
         event.setUserModel(userModel.get());
         eventRepository.save(event);

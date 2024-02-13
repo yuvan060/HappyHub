@@ -88,15 +88,16 @@ public class AdminService {
         if(themes.isEmpty()){
             return "Themes not found";
         }
-        themes.get().setThemeName(themeModel.getThemeName());
-        themes.get().setThemeImageURL(themeModel.getThemeImageURL());
-        themes.get().setThemeDescription(themeModel.getThemeDescription());
-        themes.get().setThemeCost(themeModel.getThemeCost());
-        themes.get().setThemePhotographer(themeModel.getThemePhotographer());
-        themes.get().setThemeReturnGift(themeModel.getThemeReturnGift());
-        themes.get().setThemeVideographer(themeModel.getThemeVideographer());
-        themes.get().setPublished(themeModel.isPublished());
-        themeRepository.save(themes.get());
+        ThemeModel themeToUpdate = themes.get();
+        themeToUpdate.setThemeName(themeModel.getThemeName());
+        themeToUpdate.setThemeImageURL(themeModel.getThemeImageURL());
+        themeToUpdate.setThemeDescription(themeModel.getThemeDescription());
+        themeToUpdate.setThemeCost(themeModel.getThemeCost());
+        themeToUpdate.setThemePhotographer(themeModel.getThemePhotographer());
+        themeToUpdate.setThemeReturnGift(themeModel.getThemeReturnGift());
+        themeToUpdate.setThemeVideographer(themeModel.getThemeVideographer());
+        themeToUpdate.setPublished(themeModel.isPublished());
+        themeRepository.save(themeToUpdate);
         return "Updated Successfully";
     }
 
@@ -105,11 +106,13 @@ public class AdminService {
         if (addon.isEmpty()) {
             return "Addon not found";
         }
-        addon.get().setAddonName(addonModel.getAddonName());
-        addon.get().setAddonDescription(addonModel.getAddonDescription());
-        addon.get().setAddonPrice(addonModel.getAddonPrice());
-        addon.get().setAddonImageURL(addonModel.getAddonImageURL());
-        addonRepository.save(addon.get());
+        AddonModel updateAddonModel = addon.get();
+        updateAddonModel.setAddonName(addonModel.getAddonName());
+        updateAddonModel.setAddonDescription(addonModel.getAddonDescription());
+        updateAddonModel.setAddonPrice(addonModel.getAddonPrice());
+        updateAddonModel.setAddonImageURL(addonModel.getAddonImageURL());
+        updateAddonModel.setPublished(addonModel.isPublished());
+        addonRepository.save(updateAddonModel);
         return "Addon updated successfully";
     }
 
@@ -118,11 +121,13 @@ public class AdminService {
         if (food.isEmpty()) {
             return "Food not found";
         }
-        food.get().setFoodName(foodModel.getFoodName());
-        food.get().setFoodImageURL(foodModel.getFoodImageURL());
-        food.get().setFoodDescription(foodModel.getFoodDescription());
-        food.get().setFoodPrice(foodModel.getFoodPrice());
-        foodRepository.save(food.get());
+        FoodModel updateFoodModel = food.get();
+        updateFoodModel.setFoodName(foodModel.getFoodName());
+        updateFoodModel.setFoodImageURL(foodModel.getFoodImageURL());
+        updateFoodModel.setFoodDescription(foodModel.getFoodDescription());
+        updateFoodModel.setFoodPrice(foodModel.getFoodPrice());
+        updateFoodModel.setPublished(foodModel.isPublished());
+        foodRepository.save(updateFoodModel);
         return "Food updated successfully";
     }
 

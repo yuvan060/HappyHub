@@ -4,14 +4,42 @@ import { Puff } from "react-loader-spinner";
 import Footer from "../components/Footer";
 import { Button, TextField } from "@mui/material";
 import Food_card from "../components/Food_card";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AdminService from "../services/AdminService";
 
 function Foods() {
   const [addFood, setAddFood] = useState(false);
   const [foods, setFoods] = useState({});
-  const handleSubmit = (e) => {
+  const notify = (msg) => toast.success(msg);
+  const notifyError = (msg) => toast.error(msg);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    AdminService.GetFoods(user.email, user.token).then((res) =>
+      setCardContent(res.data)
+    );
+  }, [user.email, user.token]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setCardContent((prevCardContent) => [...prevCardContent, foods]);
-    console.log(cardContent);
+    try {
+      await AdminService.PostFood(user.email, user.token, foods);
+      // console.log(response);
+      notify("Food added successfully");
+      setAddFood(false);
+      setCardContent((prevCardContent) => [...prevCardContent, foods]);
+    } catch (err) {
+      console.log(err);
+      if (err.response.status === 400) {
+        notifyError("Enter Valid Credentials");
+      } else {
+        notifyError(err.message);
+      }
+    }
+    // console.log(cardContent);
   };
   const [cardContent, setCardContent] = useState([
     {
@@ -67,6 +95,7 @@ function Foods() {
         />
       ) : (
         <>
+          <ToastContainer />
           <PrimarySearchAppBar />
           <div className="flex-box-card">
             {cardContent &&

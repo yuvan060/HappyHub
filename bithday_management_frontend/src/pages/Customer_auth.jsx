@@ -1,12 +1,15 @@
-import PrimarySearchAppBar from "../components/Nav_bar";
-import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import confetti from "../assets/images/login.jpg";
 import { login } from "../features/userSlice";
 import { Puff } from "react-loader-spinner";
+import PrimarySearchAppBar from "../components/Nav_bar";
+import confetti from "../assets/images/login.jpg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import UserService from "../services/UserService";
+
 function Customer_auth() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,6 +20,7 @@ function Customer_auth() {
       setLoading(false);
     }, 2000);
   }, []);
+
   const [state, setState] = useState("Login");
   const [customerLogin, setCustomerLogin] = useState({
     email: "",
@@ -29,14 +33,73 @@ function Customer_auth() {
     password: "",
     confirmPassword: "",
   });
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const handleLogin = (e) => {
+  const validatePassword = (password) => {
+    const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    return regex.test(password);
+  };
+  const notifyError = (message) => toast.error(message);
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const response = await UserService.LoginUser({
+        email: customerLogin.email,
+        password: customerLogin.password,
+        role: "user",
+      });
+      console.log(response);
+      if (response.data.token === "Invalid Credentials") {
+        notifyError("Enter Valid Credentials");
+        return;
+      }
       dispatch(
         login({
           email: customerLogin.email,
           password: customerLogin.password,
+          token: response.data.token,
+          role: "Customer",
+          loggedIn: true,
+        })
+      );
+      navigate("/");
+    } catch (e) {
+      notifyError("Enter Valid Credentials");
+    }
+    console.log(customerLogin);
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      if (
+        customer.confirmPassword !== customer.password ||
+        passwordError !== "" ||
+        confirmPasswordError !== ""
+      ) {
+        notifyError("Enter Valid Credentials");
+        return;
+      }
+      const response = await UserService.RegisterUser({
+        name: customer.firstName + " " + customer.lastName,
+        email: customer.email,
+        password: customer.password,
+        userRole: "user",
+      });
+      console.log(response);
+      if (
+        response.data.token === undefined ||
+        response.data.token === "Email Already exists"
+      ) {
+        notifyError("Email Already exists");
+        return;
+      }
+      dispatch(
+        login({
+          email: customer.email,
+          password: customer.password,
+          token: response.data.token,
           role: "Customer",
           loggedIn: true,
         })
@@ -45,23 +108,29 @@ function Customer_auth() {
     } catch (e) {
       console.log(e);
     }
-    console.log(customerLogin);
   };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    try {
-      dispatch(
-        login({
-          email: customer.email,
-          password: customer.password,
-          role: "Customer",
-          loggedIn: true,
-        })
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setCustomer({ ...customer, password: newPassword });
+
+    if (!validatePassword(newPassword)) {
+      setPasswordError(
+        "Password must be at least 8 characters and contain at least one uppercase letter, one special character, and one number."
       );
-      navigate("/");
-    } catch (e) {
-      console.log(e);
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPass = e.target.value;
+    setCustomer({ ...customer, confirmPassword: confirmPass });
+
+    if (confirmPass !== customer.password) {
+      setConfirmPasswordError("Passwords do not match.");
+    } else {
+      setConfirmPasswordError("");
     }
   };
 
@@ -78,6 +147,7 @@ function Customer_auth() {
         />
       ) : (
         <>
+          <ToastContainer />
           <PrimarySearchAppBar />
           <div className="flex-center-full-hw">
             <form
@@ -88,6 +158,7 @@ function Customer_auth() {
                   handleRegister(e);
                 }
               }}
+              style={{ width: "30%" }}
             >
               <h1>Customer</h1>
               <div className="flex-center-full">
@@ -157,9 +228,6 @@ function Customer_auth() {
                       fullWidth
                     />
                   </div>
-                  {/* <div className="field-container">
-                  <Link to={"/forgot-password"}>Forgot Password?</Link>
-                </div> */}
                   <div className="field-container">
                     <Button
                       type="submit"
@@ -218,32 +286,29 @@ function Customer_auth() {
                   <div className="field-container">
                     <TextField
                       value={customer.password}
-                      onChange={(e) => {
-                        setCustomer({ ...customer, password: e.target.value });
-                      }}
+                      onChange={handlePasswordChange}
                       type="password"
                       id="password"
                       label="Password"
                       required
                       variant="outlined"
                       fullWidth
+                      error={!!passwordError}
+                      helperText={passwordError}
                     />
                   </div>
                   <div className="field-container">
                     <TextField
                       value={customer.confirmPassword}
-                      onChange={(e) => {
-                        setCustomer({
-                          ...customer,
-                          confirmPassword: e.target.value,
-                        });
-                      }}
+                      onChange={handleConfirmPasswordChange}
                       type="password"
                       id="confirm-password"
                       label="Confirm password"
                       required
                       variant="outlined"
                       fullWidth
+                      error={!!confirmPasswordError}
+                      helperText={confirmPasswordError}
                     />
                   </div>
                   <div className="field-container">
