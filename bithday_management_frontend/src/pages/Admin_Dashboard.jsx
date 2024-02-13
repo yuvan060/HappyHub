@@ -13,11 +13,12 @@ import { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import UserService from "../services/UserService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminService from "../services/AdminService";
+import UserService from "../services/UserService";
 
-const User_Dashboard = () => {
+const Admin_Dashboard = () => {
   const [userName, setUserName] = useState("");
   const [BookedEvents, setBookedEvents] = useState(0);
   const [upcomingEvents, setUpcomingEvents] = useState(0);
@@ -28,13 +29,13 @@ const User_Dashboard = () => {
   const notifyError = (message) => toast.error(message);
   const notify = (message) => toast.success(message);
   useEffect(() => {
-    UserService.GetEvents(user.email, user.token).then((res) => {
+    AdminService.GetEvents(user.token).then((res) => {
       setBookedEvents(res.data.length);
       const filteredEvents = res.data.filter((event) => {
         return isValidElement(event.event.eventDate);
       });
       setUpcomingEvents(filteredEvents.length);
-      setEvents(filteredEvents);
+      setEvents(res.data);
       setUserName(filteredEvents[0]?.user?.name);
       console.log(filteredEvents);
     });
@@ -56,13 +57,13 @@ const User_Dashboard = () => {
       console.log(res);
       setCardVisibility(false);
       notify(res.data);
-      await UserService.GetEvents(user.email, user.token).then((res) => {
+      await AdminService.GetEvents(user.token).then((res) => {
         setBookedEvents(res.data.length);
         const filteredEvents = res.data.filter((event) => {
           return isValidElement(event.event.eventDate);
         });
         setUpcomingEvents(filteredEvents.length);
-        setEvents(filteredEvents);
+        setEvents(res.data);
       });
     } catch (e) {
       console.log(e);
@@ -167,16 +168,20 @@ const User_Dashboard = () => {
                       </td>
                       <td>{event.event.eventDate}</td>
                       <td>
-                        <Button
-                          className="button-bg"
-                          onClick={() => {
-                            setOverLay(index);
-                            setCardVisibility(true);
-                          }}
-                          style={{ color: "white" }}
-                        >
-                          View{" "}
-                        </Button>
+                        {isValidElement(event.event.eventDate) ? (
+                          <Button
+                            className="button-bg"
+                            onClick={() => {
+                              setOverLay(index);
+                              setCardVisibility(true);
+                            }}
+                            style={{ color: "white" }}
+                          >
+                            View{" "}
+                          </Button>
+                        ) : (
+                          <span className="status completed">Completed</span>
+                        )}
                       </td>
                     </tr>
                     // console.log(event);
@@ -279,4 +284,4 @@ const User_Dashboard = () => {
   );
 };
 
-export default User_Dashboard;
+export default Admin_Dashboard;

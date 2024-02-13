@@ -3,6 +3,9 @@ import PrimarySearchAppBar from "../components/Nav_bar";
 import { Puff } from "react-loader-spinner";
 import Footer from "../components/Footer";
 import MediaControlCard from "../components/Card";
+import UserService from "../services/UserService";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 const cardContent = [
   {
@@ -48,7 +51,19 @@ const cardContent = [
 ];
 
 function View_schedule() {
+  const user = useSelector(selectUser);
+  const [event, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    try {
+      UserService.GetEvents(user.email, user.token).then((res) =>
+        setEvents(res.data)
+      );
+      console.log(cardContent);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [user.email, user.token]);
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -70,14 +85,10 @@ function View_schedule() {
         <>
           <PrimarySearchAppBar />
           <div className="flex-box-card">
-            {cardContent &&
-              cardContent.map((card, index) => (
+            {event &&
+              event.map((event, index) => (
                 <>
-                  <MediaControlCard
-                    key={index}
-                    cardContent={card}
-                    index={index}
-                  />
+                  <MediaControlCard key={index} cardContent={event} />
                 </>
               ))}
           </div>

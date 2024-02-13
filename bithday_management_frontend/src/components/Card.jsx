@@ -1,191 +1,121 @@
+// import { Button, CardActions } from "@mui/material";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Delete, Edit } from "@mui/icons-material";
-import { useState } from "react";
-import { TextField } from "@mui/material";
-import { selectUser } from "../features/userSlice";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+// import { useState } from "react";
+// import UserService from "../services/UserService";
+// import { useSelector } from "react-redux";
+// import { selectUser } from "../features/userSlice";
 
 export default function MediaControlCard(cardContent) {
-  const [isEditable, setIsEditable] = useState(false);
-  const [isDelete, setDelete] = useState(false);
-  const user = useSelector(selectUser);
-  const [cardContents, setCardContents] = useState(cardContent.cardContent);
-  console.log(cardContents);
+  // console.log(addon);
+  // const user = useSelector(selectUser);
+  const [isEventDatePassed, setIsEventDatePassed] = useState(false);
+  const eventCard = cardContent.cardContent;
+  useEffect(() => {
+    const currentDate = new Date();
+    const eventDate = new Date(eventCard.event.eventDate);
+
+    setIsEventDatePassed(currentDate > eventDate);
+  }, [eventCard.event.eventDate]);
+  // const
+  // const handleDeleteBooking = async () => {
+  //   try {
+  //     // const res = await UserService.DeleteEvents(
+  //     //   eventCard.event.eventId,
+  //     //   user.token
+  //     // ).then(setEventCard(null));
+  //     // console.log(res);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   return (
     <>
-      {!isEditable && !isDelete ? (
-        <Card sx={{ maxWidth: 345, margin: 5 }}>
+      {eventCard && (
+        <Card
+          sx={{
+            maxWidth: 345,
+            margin: 5,
+            cursor: "pointer",
+          }}
+        >
           <CardMedia
             component="img"
-            alt="green iguana"
+            alt="Event"
             height="140"
-            image={cardContents.imageSrc}
+            image={eventCard.theme.themeImageURL}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {cardContents.eventName}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {cardContents.description}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {cardContents.cost}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Category : {cardContents.category}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Add-on : {cardContents.addOn}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Food : {cardContents.food}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">View</Button>
-            <Button
-              onClick={() => {
-                setIsEditable(true);
-              }}
-              size="small"
-            >
-              <Edit style={{ color: "#349eeb" }} />
-            </Button>
-          </CardActions>
-        </Card>
-      ) : user.role === "Customer" ? (
-        <>
-          <Card sx={{ maxWidth: 345, margin: 5 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="140"
-              image={cardContents.imageSrc}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {cardContents.eventName}
+            <div className="fields">
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Event Name : </b>
+                {eventCard.event.eventName}
               </Typography>
-              <TextField
-                style={{ margin: "1%" }}
-                value={cardContents.description}
-                onChange={(e) => {
-                  setCardContents({
-                    ...cardContents,
-                    description: e.target.value,
-                  });
-                }}
-                type="text"
-                id="description"
-                variant="outlined"
-                fullWidth
-              ></TextField>
-              <Typography variant="body2" color="text.secondary">
-                {cardContents.cost}
+            </div>
+
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Booking Date : </b>
+                {eventCard.event.eventDate}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {cardContents.category}
+            </div>
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Number Of Attendees : </b>
+                {eventCard.event.attendees}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {cardContents.addOn}
+            </div>
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Selected Theme : </b>
+                {eventCard.theme.themeName}
               </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">View</Button>
-              <Button
-                onClick={() => {
-                  setIsEditable(false);
-                }}
-                size="small"
+            </div>
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Selected AddOn : </b>
+                {eventCard.addon.addonName}
+              </Typography>
+            </div>
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Food menu : </b>
+                <ul>
+                  {eventCard.food.map((foodId) => (
+                    <li key={foodId}>{foodId.foodName}</li>
+                  ))}
+                </ul>
+              </Typography>
+            </div>
+            <div className="fields">
+              {" "}
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <b>Total Cost : </b>$ {eventCard.event.eventCost}
+              </Typography>
+            </div>
+            <div className="fields">
+              <Typography
+                gutterBottom
+                variant="body1"
+                color={isEventDatePassed ? "green" : "orange"}
               >
-                Confirm
-              </Button>
-            </CardActions>
-          </Card>
-        </>
-      ) : !isDelete ? (
-        <>
-          <>
-            <Card sx={{ maxWidth: 345, margin: 5 }}>
-              <CardMedia
-                component="img"
-                alt="green iguana"
-                height="140"
-                image={cardContents.imageSrc}
-              />
-              <CardContent>
-                <TextField
-                  style={{ margin: "1%" }}
-                  value={cardContents.eventName}
-                  onChange={(e) => {
-                    setCardContents({
-                      ...cardContents,
-                      eventName: e.target.value,
-                    });
-                  }}
-                  type="text"
-                  id="name"
-                  variant="outlined"
-                  fullWidth
-                ></TextField>
-                <TextField
-                  style={{ margin: "1%" }}
-                  value={cardContents.description}
-                  onChange={(e) => {
-                    setCardContents({
-                      ...cardContents,
-                      description: e.target.value,
-                    });
-                  }}
-                  type="text"
-                  id="description"
-                  variant="outlined"
-                  fullWidth
-                ></TextField>
-                <TextField
-                  style={{ margin: "1%" }}
-                  value={cardContents.cost}
-                  onChange={(e) => {
-                    setCardContents({
-                      ...cardContents,
-                      cost: e.target.value,
-                    });
-                  }}
-                  type="text"
-                  id="cost"
-                  variant="outlined"
-                  fullWidth
-                ></TextField>
-              </CardContent>
-              <CardActions>
-                <Button size="small">View</Button>
-                <Button
-                  onClick={() => {
-                    setIsEditable(false);
-                  }}
-                  size="small"
-                >
-                  Confirm
-                </Button>
-                <Button
-                  onClick={() => {
-                    setDelete(true);
-                  }}
-                >
-                  <Delete />
-                </Button>
-              </CardActions>
-            </Card>
-          </>
-        </>
-      ) : (
-        <></>
+                {isEventDatePassed ? "▣ Completed" : "▣ Upcoming"}
+              </Typography>
+            </div>
+          </CardContent>
+        </Card>
       )}
+      {/* <div className="overlay">
+        <Card>Hey</Card>
+      </div> */}
     </>
   );
 }

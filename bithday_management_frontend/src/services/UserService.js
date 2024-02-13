@@ -46,6 +46,25 @@ class UserService {
     };
     return axios.get(API_BASE_URL + "admin/get-all-addons", config);
   }
+
+  GetEvents(email, token) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(API_BASE_URL + "user/booked-events/" + email);
+    return axios.get(API_BASE_URL + "user/booked-events/" + email, config);
+  }
+
+  DeleteEvents(id, token) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axios.delete(API_BASE_URL + "user/delete-event/" + id, config);
+  }
 }
 
 export default new UserService();

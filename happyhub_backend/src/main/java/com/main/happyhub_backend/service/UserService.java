@@ -1,16 +1,22 @@
 package com.main.happyhub_backend.service;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.main.happyhub_backend.dto.response.EventResponse;
+import com.main.happyhub_backend.model.AddonModel;
 import com.main.happyhub_backend.model.EventModel;
+import com.main.happyhub_backend.model.FoodModel;
+import com.main.happyhub_backend.model.ThemeModel;
 import com.main.happyhub_backend.model.User;
 import com.main.happyhub_backend.model.UserModel;
 import com.main.happyhub_backend.repository.AddonRepository;
 import com.main.happyhub_backend.repository.EventRepository;
+import com.main.happyhub_backend.repository.FoodRepository;
 import com.main.happyhub_backend.repository.ThemeRepository;
 import com.main.happyhub_backend.repository.UserModelRepository;
 import com.main.happyhub_backend.repository.UserRepository;
@@ -28,6 +34,8 @@ public class UserService {
     ThemeRepository themeRepository;
     @Autowired
     AddonRepository addonRepository;
+    @Autowired
+    FoodRepository foodRepository;
 
     public String addUser(UserModel userModel) {
         userRepository.save(userModel);
@@ -66,19 +74,40 @@ public class UserService {
         return "Event Added Successfully";
     }
 
-    public List<EventModel> getEventsBookedByUser(String email) {
+    public List<EventResponse> getEventsBookedByUser(String email) {
         Optional<UserModel> userOptional = userRepository.findByUserEmail(email);
             UserModel user = userOptional.get();
-            return user.getEvents();
-        
+            List<EventResponse> events = new ArrayList<>();
+            for(EventModel i : user.getEvents()){
+                events.add(getEventById(i.getEventId()));
+            }
+        return events;
     }
 
-    public EventModel getEventById(int eventId){
-        return eventRepository.findById(eventId).get();
+    public EventResponse getEventById(int eventId){
+        EventResponse eventResponse = new EventResponse();
+        EventModel event = eventRepository.findById(eventId).get();
+        eventResponse.setEvent(event);
+        AddonModel addon = addonRepository.findById(event.getAddon()).get();
+        eventResponse.setAddon(addon);
+        ThemeModel theme = themeRepository.findById(event.getEventTheme()).get();
+        eventResponse.setTheme(theme);
+        List<FoodModel> food = new ArrayList<FoodModel>();
+        for(String i : event.getEventFoodId().split("-")){
+            food.add(foodRepository.findById(Integer.parseInt(i)).get());
+        }
+        eventResponse.setFood(food);
+        eventResponse.setUser(event.getUserModel().getUser());
+        return eventResponse;
     }
 
-    public List<EventModel> getEvents(){
-        return eventRepository.findAll();
+    public List<EventResponse> getEvents(){
+        List<EventResponse> events = new ArrayList<EventResponse>();
+        List<EventModel> event = eventRepository.findAll();
+        for(EventModel i : event){
+            events.add(getEventById(i.getEventId()));
+        }
+        return events;
     }
 
     public String updateEvent(EventModel eventModel){
@@ -102,5 +131,10 @@ public class UserService {
         eventRepository.save(event.get());
         return "Event updated successfully";
     }
+    
 
+    public String deleteEvent(int id){
+        eventRepository.deleteById(id);
+        return "Event deleted successfully";
+    }
 }

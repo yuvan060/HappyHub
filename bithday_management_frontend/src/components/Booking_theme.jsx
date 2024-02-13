@@ -13,7 +13,7 @@ export default function Booking_theme_card(cardContent) {
     themeReturnGift,
     themeCost,
   } = cardContent.cardContent;
-
+  console.log(themeImageURL);
   const handleClick = () => {
     cardContent.onClick && cardContent.onClick();
   };

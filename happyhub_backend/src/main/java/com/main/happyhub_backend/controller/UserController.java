@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.main.happyhub_backend.service.UserService;
+import com.main.happyhub_backend.dto.response.EventResponse;
 import com.main.happyhub_backend.model.EventModel;
 import com.main.happyhub_backend.model.UserModel;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,17 +38,17 @@ public class UserController {
     }
 
     @GetMapping("/user/booked-events/{email}")
-    public List<EventModel> getBookedEvents(@PathVariable String email) {
+    public List<EventResponse> getBookedEvents(@PathVariable String email) {
         return userService.getEventsBookedByUser(email);
     }
 
     @GetMapping("/user/get-event/{id}")
-    public EventModel getEventById(@PathVariable int id) {
+    public EventResponse getEventById(@PathVariable int id) {
         return userService.getEventById(id);
     }
     
     @GetMapping("/get-all-events")
-    public List<EventModel> getAllEvents(){
+    public List<EventResponse> getAllEvents(){
         return userService.getEvents();
     }
     
@@ -65,4 +67,8 @@ public class UserController {
         return userService.addEvent(email, entity);
     }
     
+    @DeleteMapping("/user/delete-event/{id}")
+    public String deleteEvent(@PathVariable int id){
+        return userService.deleteEvent(id);
+    }
 }

@@ -87,7 +87,13 @@ function PrimarySearchAppBar() {
       <Divider />
       <List>
         {[
-          { name: "My DashBoard", link: "/profile/dashboard" },
+          {
+            name: "My DashBoard",
+            link:
+              user?.role === "Customer"
+                ? "/profile/user-dashboard"
+                : "/profile/admin-dashboard",
+          },
           { name: "Logout", link: "/logout" },
         ].map((text, index) => (
           <ListItem

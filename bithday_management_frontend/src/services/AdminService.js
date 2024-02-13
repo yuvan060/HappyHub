@@ -38,35 +38,32 @@ class AdminService {
     return axios.post(API_BASE_URL + "admin/add-foods/" + email, food, config);
   }
 
-  GetThemes(email, token, theme) {
+  GetThemes(email, token) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    return axios.get(API_BASE_URL + "admin/get-themes/" + email, theme, config);
+    console.log(API_BASE_URL + "admin/get-themes/" + email);
+    return axios.get(API_BASE_URL + "admin/get-themes/" + email, config);
   }
 
-  GetFoods(email, token, food) {
+  GetFoods(email, token) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    return axios.get(API_BASE_URL + "admin/get-foods/" + email, food, config);
+    return axios.get(API_BASE_URL + "admin/get-foods/" + email, config);
   }
 
-  GetAddons(email, token, addons) {
+  GetAddons(email, token) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    return axios.get(
-      API_BASE_URL + "admin/get-addons/" + email,
-      addons,
-      config
-    );
+    return axios.get(API_BASE_URL + "admin/get-addons/" + email, config);
   }
 
   UpdateThemes(token, theme) {
@@ -94,6 +91,15 @@ class AdminService {
       },
     };
     return axios.put(API_BASE_URL + "admin/update-addon", addons, config);
+  }
+
+  GetEvents(token) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axios.get(API_BASE_URL + "get-all-events", config);
   }
 }
 

@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../components/Nav_bar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import UserService from "../services/UserService";
@@ -98,12 +105,14 @@ function Book_events_2() {
     },
   ]);
   const location = useLocation();
-  const [isBooked, setBooked] = useState(false);
+  const navigate = useNavigate();
+  const [isBooked, setIsBooked] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(location.state);
   const [eventThemeId, setEventThemeId] = useState(-1);
   const [addonId, setAddonId] = useState(-1);
   const [eventFoodId, setEventFoodId] = useState([]);
   const notifyError = (msg) => toast.error(msg);
+  const [viewSummary, setViewSummary] = useState(false);
   async function handleSubmit() {
     try {
       if (eventThemeId == -1) {
@@ -144,27 +153,36 @@ function Book_events_2() {
         eventCost: totalCost,
       };
       setBookingDetails(updatedBookingDetails);
-      const response = await UserService.BookEvent(
-        user.email,
-        user.token,
-        updatedBookingDetails
-      );
-      console.log(updatedBookingDetails);
-      console.log(response);
-      notify("Event Successfully Added 😊");
-      setBooked(true);
+      setViewSummary(true);
     } catch (err) {
       console.log(err);
       notifyError(err.msg);
     }
   }
 
+  const handleBooking = async () => {
+    try {
+      const response = await UserService.BookEvent(
+        user.email,
+        user.token,
+        bookingDetails
+      );
+      console.log(response);
+      notify("Event Successfully Added 😊");
+      setIsBooked(true);
+      setViewSummary(false);
+    } catch (err) {
+      console.log("Error");
+      notifyError(err.msg);
+    }
+  };
+
   const notify = (message) => toast.success(message);
 
   return (
     <>
-      <PrimarySearchAppBar />
       <ToastContainer />
+      <PrimarySearchAppBar />
       <div className="flex-center-full-hw">
         {cardThemeContent.length !== 0 ? (
           <>
@@ -257,19 +275,112 @@ function Book_events_2() {
           </center>
         )}
 
-        {!isBooked ? (
-          <div>
+        {viewSummary && (
+          <div className="overlay">
+            <Card>
+              <CardMedia
+                component="img"
+                alt="Event"
+                height="140"
+                image={
+                  cardThemeContent.find(
+                    (theme) => theme.themeId === eventThemeId
+                  )?.themeImageURL
+                }
+              />
+              <CardContent>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Event Name : </b>
+                  {bookingDetails.eventName}
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Booking Date : </b>
+                  {bookingDetails.eventDate}
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Number Of Attendees : </b>
+                  {bookingDetails.attendees}
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Selected Theme : </b>
+                  {
+                    cardThemeContent.find(
+                      (theme) => theme.themeId === eventThemeId
+                    )?.themeName
+                  }
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Selected AddOn : </b>
+                  {
+                    cardAddonContent.find(
+                      (addon) => addon.addonId === bookingDetails.addon
+                    )?.addonName
+                  }
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Food menu : </b>
+                  <ul>
+                    {eventFoodId.map((foodId) => (
+                      <li key={foodId}>
+                        {
+                          food.find((foodItem) =>
+                            eventFoodId.includes(foodItem.foodId)
+                          ).foodName
+                        }
+                      </li>
+                    ))}
+                  </ul>
+                </Typography>
+                <Typography gutterBottom variant="body2" color="text.secondary">
+                  <b>Total Cost : </b>$ {bookingDetails.eventCost}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  className="button-bg"
+                  style={{ color: "white", width: "100%" }}
+                  onClick={() => {
+                    setViewSummary(false);
+                  }}
+                >
+                  Close
+                </Button>
+                <Button
+                  className="button-bg"
+                  style={{ color: "white", width: "100%" }}
+                  onClick={() => {
+                    handleBooking();
+                  }}
+                >
+                  Book Event
+                </Button>
+              </CardActions>
+            </Card>
+          </div>
+        )}
+        <div>
+          {!isBooked ? (
             <Button
               className="button-bg"
               style={{ color: "white", width: "100%" }}
-              onClick={handleSubmit}
+              onClick={() => {
+                handleSubmit();
+              }}
             >
-              Book Event
+              View Summary
             </Button>
-          </div>
-        ) : (
-          <></>
-        )}
+          ) : (
+            <Button
+              className="button-bg"
+              style={{ color: "white", width: "100%" }}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Go Back to Home Page
+            </Button>
+          )}
+        </div>
       </div>
     </>
   );
